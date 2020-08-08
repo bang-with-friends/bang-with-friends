@@ -1,4 +1,4 @@
-import { GameCard } from './Cards';
+import { GameCard, makeDeck } from './Cards';
 import { GameEvent } from './Events';
 
 export enum Role {
@@ -70,7 +70,7 @@ export class Game {
 
   constructor (id: String) {
     this.id = id;
-    this.deck = [];
+    this.deck = makeDeck();
     this.discard = [];
     this.turn = '',
     this.state = GameState.WAITING
