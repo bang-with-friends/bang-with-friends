@@ -1,4 +1,4 @@
-import  { GameEvent, PlayCardEvent } from './Events';
+import  { GameEvent } from './Events';
 
 export enum CardSuit {
   HEARTS = 'HEARTS',
@@ -596,7 +596,7 @@ export const makeDeck = () => {
   allCards.push(
     scope1(), barrel1(), barrel2(), dynamite1(), jail1(), jail2(), jail3(), 
     mustang1(), mustang2(), schofield1(), schofield2(), schofield3(), 
-    remington1(), revCarabine1(), winchester1(),  volcanic1(), volcanic2(), 
+    remington1(), revCarabine1(), winchester1(), volcanic1(), volcanic2(), 
     catBalou1(), catBalou2(), catBalou3(), catBalou4(), panic1(), panic2(), 
     panic3(), panic4(), indians1(), indians2(), duel1(), duel2(), duel3(), 
     generalStore1(), generalStore2(), beer1(), beer2(), beer3(), beer4(), 
@@ -610,12 +610,11 @@ export const makeDeck = () => {
   );
 
   for (let i = allCards.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * i)
-    const temp = allCards[i]
-    allCards[i] = allCards[j]
-    allCards[j] = temp
+    const j = Math.floor(Math.random() * i);
+    const temp = allCards[i];
+    allCards[i] = allCards[j];
+    allCards[j] = temp;
   }
 
   return allCards;
 }
-
