@@ -68,3 +68,10 @@ jobs:
     # Runs a set of commands using the runners shell
     - name: Test All
       run: pnpm test
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        files: */coverage/clover.xml
+        name: bang-with-friends
+        fail_ci_if_error: true
