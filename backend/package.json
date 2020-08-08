@@ -6,7 +6,8 @@
     "start": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "test": "jest",
-    "lint": "eslint --ext .js,.ts ./src/"
+    "lint": "eslint --ext .js,.ts ./src/",
+    "preinstall": "npx only-allow pnpm"
   },
   "license": "MIT",
   "dependencies": {
