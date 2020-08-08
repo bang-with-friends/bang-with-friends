@@ -1,0 +1,13 @@
+{
+  "name": "bang-with-friends",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "",
+  "scripts": {
+    "start": "pnpm recursive run start",
+    "build": "pnpm recursive run build",
+    "test": "pnpm recursive run test",
+    "lint": "pnpm recursive run lint",
+    "preinstall": "npx only-allow pnpm"
+  }
+}
