@@ -73,5 +73,5 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         files: */coverage/clover.xml
-        name: bang-with-friends
+        name: 'bang-with-friends'
         fail_ci_if_error: true
