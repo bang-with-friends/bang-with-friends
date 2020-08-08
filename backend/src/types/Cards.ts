@@ -23,6 +23,7 @@ export interface CardStatus {
 }
 
 export abstract class GameCard {
+  
   abstract suit: CardSuit;
   abstract number: Number;
   abstract playable: Boolean;
@@ -33,19 +34,11 @@ export abstract class GameCard {
   static status: CardStatus
 
   static action: () => GameEvent[];
+  
 }
 
 export class Bang implements GameCard {
-  constructor (suit: CardSuit, number: Number) {
-    this.suit = suit;
-    this.number = number;
-    this.playable = false;
-  }
-
-  suit: CardSuit;
-  number: Number;
-  playable: Boolean;
-
+  
   static kind = CardKind.ACTION;
   static title = 'Bang';
   static text = 'WIP';
@@ -54,4 +47,15 @@ export class Bang implements GameCard {
   }
 
   static action: () => GameEvent[];
+
+  suit: CardSuit;
+  number: Number;
+  playable: Boolean;
+
+  constructor (suit: CardSuit, number: Number) {
+    this.suit = suit;
+    this.number = number;
+    this.playable = false;
+  }
+
 }

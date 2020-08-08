@@ -10,16 +10,6 @@ export enum Role {
 }
 
 export class Player {
-  constructor (id: String, name: String, maxHealth: Number) {
-    this.id = id;
-    this.name = name;
-    this.role = Role.NONE; 
-    this.maxHealth = maxHealth;
-    this.currentHealth = maxHealth;
-    this.cards = {hand: [], board: []}
-    this.alive = true;
-    // this.character = ??
-  }
 
   id: String;
   name: String;
@@ -33,6 +23,17 @@ export class Player {
 
   alive: Boolean;
   // character: Character;
+
+  constructor (id: String, name: String) {
+    this.id = id;
+    this.name = name;
+    this.role = Role.NONE; 
+    this.maxHealth = -1;
+    this.currentHealth = -1;
+    this.cards = {hand: [], board: []}
+    this.alive = true;
+    // this.character = ??
+  }
 }
 
 export interface CharacterEffect {
@@ -41,37 +42,38 @@ export interface CharacterEffect {
 }
 
 export class Character {
+
+  name: String;
+  text: String;
+  effect: CharacterEffect[]
+
   constructor (name: String, text: String, effect: CharacterEffect[]) {
     this.name = name;
     this.text = text;
     this.effect = effect;
   }
-
-  name: String;
-  text: String;
-  effect: CharacterEffect[]
 }
 
 export enum GameState {
-  waiting = 'waiting',
-  playing = 'playing',
-  completed = 'completed'
+  WAITING = 'WAITING',
+  PLAYING = 'PLAYING',
+  COMPLETED = 'COMPLETED'
 }
 
 export class Game {
-  constructor (id: String, code: String, deck: GameCard[], discard: GameCard[], state: GameState) {
-    this.id = id;
-    this.code = code;
-    this.deck = deck;
-    this.discard = [];
-    this.turn = '',
-    this.state = GameState.waiting
-  }
 
   id: String;
-  code: String;
   deck: GameCard[];
   discard: GameCard[];
   turn: String;
   state: GameState;
+
+  constructor (id: String) {
+    this.id = id;
+    this.deck = [];
+    this.discard = [];
+    this.turn = '',
+    this.state = GameState.WAITING
+  }
+  
 }

@@ -1,36 +1,44 @@
 import { GameCard } from './Cards';
 
 export enum EventName {
-  game_start = 'game_start',
-  shuffle_cards = 'shuffle_cards',
-  start_turn = 'start_turn',
-  end_turn = 'end_turn',
-  play_card = 'play_card',
-  discard_card = 'discard_card',
-  draw_card = 'draw_card',
-  health = 'health'
+  GAME_START = 'GAME_START',
+  SHUFFLE_CARDS = 'SHUFFLE_CARDS',
+  START_TURN = 'START_TURN',
+  END_TURN = 'END_TURN',
+  PLAY_CARD = 'PLAY_CARD',
+  DISCARD_CARD = 'DISCARD_CARD',
+  DRAW_CARD = 'DRAW_CARD',
+  HEALTH = 'HEALTH'
 }
 
 export enum SourceKind {
-  deck = 'deck',
-  discard = 'discard',
-  playerHand = 'playerHand',
-  playerBoard = 'playerBoard',
+  DECK = 'DECK',
+  DISCARD = 'DISCARD',
+  PLAYER_HAND = 'PLAYER_HAND',
+  PLAYER_BOARD = 'PLAYER_BOARD',
 }
 
-export interface GameEvent {
+export abstract class GameEvent {
+
   name: EventName;
   data: any;
+
+  constructor (name: EventName, data: any) {
+    this.name = name;
+    this.data = data;
+  }
 }
 
-export class GameStartEvent implements GameEvent {
-  name = EventName.game_start;
-  data = null;
+export class GameStartEvent extends GameEvent {
+  constructor () {
+    super(EventName.START_TURN, null);
+  }
 }
 
-export class ShuffleCardsEvent implements GameEvent {
-  name = EventName.shuffle_cards;
-  data = null;
+export class ShuffleCardsEvent extends GameEvent {
+  constructor () {
+    super(EventName.SHUFFLE_CARDS, null);
+  }
 }
 
 export interface StartTurnData {
@@ -38,26 +46,24 @@ export interface StartTurnData {
   nextPlayer: String,
 }
 
-export class StartTurnEvent implements GameEvent {
+export class StartTurnEvent extends GameEvent {
+
   constructor (data: StartTurnData) {
-    this.data = data;
+    super(EventName.START_TURN, data);
   }
   
-  name = EventName.start_turn;
-  data: StartTurnData;
-}
+} 
 
 export interface EndTurnData {
   player: String,
 }
 
-export class EndTurnEvent implements GameEvent {
+export class EndTurnEvent extends GameEvent {
+
   constructor (data: EndTurnData) {
-    this.data = data; 
+    super(EventName.END_TURN, data);
   }
   
-  name = EventName.end_turn;
-  data: EndTurnData;
 }
 
 export interface PlayCardData {
@@ -66,13 +72,12 @@ export interface PlayCardData {
   card: GameCard
 }
 
-export class PlayCardEvent implements GameEvent {
+export class PlayCardEvent extends GameEvent {
+
   constructor (data: PlayCardData) {
-    this.data = data;
+    super(EventName.PLAY_CARD, data);
   }
 
-  name = EventName.play_card;
-  data: PlayCardData;
 }
 
 export interface DiscardCardData {
@@ -80,13 +85,12 @@ export interface DiscardCardData {
   card: GameCard
 }
 
-export class DiscardCardEvent implements GameEvent {
+export class DiscardCardEvent extends GameEvent {
+
   constructor (data: DiscardCardData) {
-    this.data = data;
+    super(EventName.DISCARD_CARD, data);
   }
 
-  name = EventName.discard_card;
-  data: DiscardCardData;
 }
 
 export interface DrawCardData {
@@ -97,12 +101,12 @@ export interface DrawCardData {
   }
 }
 
-export class DrawCardEvent implements GameEvent {
+export class DrawCardEvent extends GameEvent {
+
   constructor (data: DrawCardData) {
-    this.data = data;
+    super(EventName.DRAW_CARD, data);
   }
-  data: DrawCardData;
-  name = EventName.draw_card;
+
 }
 
 export interface HealthData {
@@ -110,10 +114,10 @@ export interface HealthData {
   change: Number
 }
 
-export class HealthEvent implements GameEvent {
+export class HealthEvent extends GameEvent {
+
   constructor (data: HealthData) {
-    this.data = data;
+    super(EventName.HEALTH, data);
   }
-  data: HealthData;
-  name = EventName.health;
+
 }
