@@ -9,7 +9,9 @@ export enum EventName {
   PLAY_CARD = 'PLAY_CARD',
   DISCARD_CARD = 'DISCARD_CARD',
   PICK_CARD = 'PICK_CARD',
-  PLAYER_UPDATE = 'PLAYER_UPDATE'
+  PLAYER_UPDATE = 'PLAYER_UPDATE',
+  PLAYER_JOINED = 'PLAYER_JOINED',
+  ADD_PLAYER = 'ADD_PLAYER',
 }
 
 export enum SourceKind {
@@ -124,5 +126,26 @@ export interface PlayerUpdateData {
 export class PlayerUpdateEvent extends GameEvent {
   constructor(data: PlayerUpdateData) {
     super(EventName.PLAYER_UPDATE, data);
+  }
+}
+
+export interface PlayerJoinedData {
+  player: Player,
+}
+
+export class PlayerJoinedEvent extends GameEvent {
+  constructor(data: PlayerJoinedData) {
+    super(EventName.PLAYER_JOINED, data);
+  }
+}
+
+export interface AddPlayerData {
+  player: Player,
+  game: string,
+}
+
+export class AddPlayerEvent extends GameEvent {
+  constructor(data: AddPlayerData) {
+    super(EventName.ADD_PLAYER, data);
   }
 }
