@@ -1,4 +1,5 @@
-import { GameCard } from './Cards';
+import { CardType, GameCard } from './Cards';
+import { Player } from './Player';
 
 export enum EventName {
   GAME_START = 'GAME_START',
@@ -7,7 +8,7 @@ export enum EventName {
   END_TURN = 'END_TURN',
   PLAY_CARD = 'PLAY_CARD',
   DISCARD_CARD = 'DISCARD_CARD',
-  DRAW_CARD = 'DRAW_CARD',
+  PICK_CARD = 'PICK_CARD',
   HEALTH = 'HEALTH'
 }
 
@@ -16,6 +17,7 @@ export enum SourceKind {
   DISCARD = 'DISCARD',
   PLAYER_HAND = 'PLAYER_HAND',
   PLAYER_BOARD = 'PLAYER_BOARD',
+  GENERAL_STORE = 'GENERAL_STORE',
 }
 
 export abstract class GameEvent {
@@ -41,8 +43,8 @@ export class ShuffleCardsEvent extends GameEvent {
 }
 
 export interface StartTurnData {
-  prevPlayer: String,
-  nextPlayer: String,
+  prevPlayer: string,
+  nextPlayer: string,
 }
 
 export class StartTurnEvent extends GameEvent {
@@ -52,7 +54,7 @@ export class StartTurnEvent extends GameEvent {
 }
 
 export interface EndTurnData {
-  player: String,
+  player: string,
 }
 
 export class EndTurnEvent extends GameEvent {
@@ -62,8 +64,8 @@ export class EndTurnEvent extends GameEvent {
 }
 
 export interface PlayCardData {
-  sourcePlayer: String,
-  targetPlayer?: String,
+  sourcePlayer: string,
+  targetPlayer?: string,
   card: GameCard
 }
 
@@ -74,7 +76,7 @@ export class PlayCardEvent extends GameEvent {
 }
 
 export interface DiscardCardData {
-  sourcePlayer: String,
+  sourcePlayer: string,
   card: GameCard
 }
 
@@ -84,27 +86,37 @@ export class DiscardCardEvent extends GameEvent {
   }
 }
 
-export interface DrawCardData {
-  sourceKind: SourceKind,
-  sourceData?: {
-    player: String,
-    location: Number
+export interface PickCardData {
+  sources: {
+    player?: string;
+    sourceKind: SourceKind;
+    canView: boolean;
+  }[];
+  receiver: {
+    kind: SourceKind;
+    player?: string;
+  };
+  optionCount?: number;
+  filter: CardType[];
+  selectCount: number;
+  optional: boolean;
+  picker?: string;
+}
+
+export class PickCardEvent extends GameEvent {
+  constructor(data: PickCardData) {
+    super(EventName.PICK_CARD, data);
   }
 }
 
-export class DrawCardEvent extends GameEvent {
-  constructor(data: DrawCardData) {
-    super(EventName.DRAW_CARD, data);
-  }
+export interface PlayerUpdateData {
+  player: string,
+  field: keyof Player,
+  newValue: any,
 }
 
-export interface HealthData {
-  player: String,
-  change: Number
-}
-
-export class HealthEvent extends GameEvent {
-  constructor(data: HealthData) {
+export class PlayerUpdateEvent extends GameEvent {
+  constructor(data: PlayerUpdateData) {
     super(EventName.HEALTH, data);
   }
 }
