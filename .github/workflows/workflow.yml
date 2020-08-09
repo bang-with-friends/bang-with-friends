@@ -102,5 +102,5 @@ jobs:
         pnpm install
 
     # Runs a set of commands using the runners shell
-    - name: Test All
+    - name: Lint All
       run: pnpm lint
