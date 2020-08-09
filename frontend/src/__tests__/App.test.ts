@@ -56,6 +56,8 @@ describe('App', () => {
     expect(wrapper.findComponent(Home).exists()).toBe(true);
   });
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+
   it('scrolls to top if no saved position', () => {
     const to = {} as any;
     const from = {} as any;
