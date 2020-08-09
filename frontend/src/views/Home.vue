@@ -3,8 +3,8 @@
     <h1>Bang! with Friends</h1>
     <div class='box'>
       <div v-show='show === ShowState.SELECT' class='buttons'>
-        <div v-on:click.once='create'>Create new room</div>
-        <div v-on:click.once='join'>Join a room</div>
+        <div v-on:click.once='create' id='create'>Create new room</div>
+        <div v-on:click.once='join' id='join'>Join a room</div>
       </div>
       <div v-show='show !== ShowState.SELECT' class='settings'>
         <p>Room code</p>
@@ -12,7 +12,9 @@
         <input v-else v-model='code' />
         <p>Name</p>
         <input v-model='name' />
-        <div v-on:click.once='complete'>{{ show === ShowState.CREATE ? 'Create' : 'Join' }}</div>
+        <div v-on:click.once='complete' id='complete'>
+          {{ show === ShowState.CREATE ? 'Create' : 'Join' }}
+        </div>
       </div>
     </div>
   </div>

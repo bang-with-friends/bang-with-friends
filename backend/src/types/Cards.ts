@@ -167,4 +167,3 @@ export const shuffleDeck = (deck: GameCard[]) => {
 
   return cards;
 };
-

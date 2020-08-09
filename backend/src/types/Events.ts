@@ -108,4 +108,3 @@ export class HealthEvent extends GameEvent {
     super(EventName.HEALTH, data);
   }
 }
-

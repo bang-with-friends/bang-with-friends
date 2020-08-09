@@ -69,4 +69,3 @@ export class Game {
     this.state = GameState.WAITING;
   }
 }
-
