@@ -19,24 +19,23 @@ export enum SourceKind {
 }
 
 export abstract class GameEvent {
-
   name: EventName;
   data: any;
 
-  constructor (name: EventName, data: any) {
+  constructor(name: EventName, data: any) {
     this.name = name;
     this.data = data;
   }
 }
 
 export class GameStartEvent extends GameEvent {
-  constructor () {
+  constructor() {
     super(EventName.START_TURN, null);
   }
 }
 
 export class ShuffleCardsEvent extends GameEvent {
-  constructor () {
+  constructor() {
     super(EventName.SHUFFLE_CARDS, null);
   }
 }
@@ -47,23 +46,19 @@ export interface StartTurnData {
 }
 
 export class StartTurnEvent extends GameEvent {
-
-  constructor (data: StartTurnData) {
+  constructor(data: StartTurnData) {
     super(EventName.START_TURN, data);
   }
-  
-} 
+}
 
 export interface EndTurnData {
   player: String,
 }
 
 export class EndTurnEvent extends GameEvent {
-
-  constructor (data: EndTurnData) {
+  constructor(data: EndTurnData) {
     super(EventName.END_TURN, data);
   }
-  
 }
 
 export interface PlayCardData {
@@ -73,11 +68,9 @@ export interface PlayCardData {
 }
 
 export class PlayCardEvent extends GameEvent {
-
-  constructor (data: PlayCardData) {
+  constructor(data: PlayCardData) {
     super(EventName.PLAY_CARD, data);
   }
-
 }
 
 export interface DiscardCardData {
@@ -86,27 +79,23 @@ export interface DiscardCardData {
 }
 
 export class DiscardCardEvent extends GameEvent {
-
-  constructor (data: DiscardCardData) {
+  constructor(data: DiscardCardData) {
     super(EventName.DISCARD_CARD, data);
   }
-
 }
 
 export interface DrawCardData {
   sourceKind: SourceKind,
-    sourceData?: {
-      player: String,
-      location: Number
+  sourceData?: {
+    player: String,
+    location: Number
   }
 }
 
 export class DrawCardEvent extends GameEvent {
-
-  constructor (data: DrawCardData) {
+  constructor(data: DrawCardData) {
     super(EventName.DRAW_CARD, data);
   }
-
 }
 
 export interface HealthData {
@@ -115,9 +104,8 @@ export interface HealthData {
 }
 
 export class HealthEvent extends GameEvent {
-
-  constructor (data: HealthData) {
+  constructor(data: HealthData) {
     super(EventName.HEALTH, data);
   }
-
 }
+
