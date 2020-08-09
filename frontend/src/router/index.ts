@@ -1,29 +1,47 @@
 import Vue from 'vue';
-import VueRouter, { RouteConfig } from 'vue-router';
+import VueRouter, { Route, RouteConfig } from 'vue-router';
+
+import Game from '../views/Game.vue';
+import HelloWorld from '../components/HelloWorld.vue';
 import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
 
-const routes: Array<RouteConfig> = [
+export const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
     component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/game/:id',
+    name: 'Game',
+    component: Game,
+  },
+  {
+    path: '/helloworld',
+    name: 'HelloWorld',
+    component: HelloWorld,
+  },
+  {
+    path: '*',
+    name: 'Not Found',
+    component: Home,
   },
 ];
 
+type Position = { x: number; y: number };
+export const scrollBehavior = (_to: Route, _from: Route, savedPosition: Position | void) => {
+  if (savedPosition) {
+    return savedPosition;
+  }
+  return { x: 0, y: 0 };
+};
+
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
   routes,
+  mode: 'history',
+  scrollBehavior,
 });
 
 export default router;

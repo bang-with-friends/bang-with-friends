@@ -9,7 +9,7 @@ export enum EventName {
   PLAY_CARD = 'PLAY_CARD',
   DISCARD_CARD = 'DISCARD_CARD',
   PICK_CARD = 'PICK_CARD',
-  HEALTH = 'HEALTH'
+  PLAYER_UPDATE = 'PLAYER_UPDATE'
 }
 
 export enum SourceKind {
@@ -117,6 +117,6 @@ export interface PlayerUpdateData {
 
 export class PlayerUpdateEvent extends GameEvent {
   constructor(data: PlayerUpdateData) {
-    super(EventName.HEALTH, data);
+    super(EventName.PLAYER_UPDATE, data);
   }
 }
