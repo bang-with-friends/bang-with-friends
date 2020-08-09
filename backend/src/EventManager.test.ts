@@ -50,8 +50,8 @@ const eventsToTest: (Events.EventName | Events.GameEvent)[][] = [
   [Events.EventName.END_TURN,      new Events.EndTurnEvent({} as any)],
   [Events.EventName.PLAY_CARD,     new Events.PlayCardEvent({} as any)],
   [Events.EventName.DISCARD_CARD,  new Events.DiscardCardEvent({} as any)],
-  [Events.EventName.DRAW_CARD,     new Events.DrawCardEvent({} as any)],
-  [Events.EventName.HEALTH,        new Events.HealthEvent({} as any)],
+  [Events.EventName.PICK_CARD,     new Events.PickCardEvent({} as any)],
+  [Events.EventName.PLAYER_UPDATE, new Events.PlayerUpdateEvent({} as any)],
 ];
 /* eslint-enable no-multi-spaces */
 
