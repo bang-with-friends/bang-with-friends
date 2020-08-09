@@ -41,6 +41,11 @@ importers:
       ts-jest: ^26.1.4
       ts-node-dev: ^1.0.0-pre.56
       typescript: ^3.9.7
+  common:
+    devDependencies:
+      typescript: 3.9.7
+    specifiers:
+      typescript: ^3.9.7
   frontend:
     dependencies:
       core-js: 3.6.5
