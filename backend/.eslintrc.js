@@ -15,6 +15,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-classes-per-file': 'off',
     '@typescript-eslint/lines-between-class-members': [ 'warn', 'always', { exceptAfterSingleLine: true } ],
+    '@typescript-eslint/no-unused-vars': [ 'error', { 'argsIgnorePattern': '^_' } ],
   },
   overrides: [
     {

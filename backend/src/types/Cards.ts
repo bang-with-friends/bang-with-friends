@@ -37,11 +37,11 @@ export enum CardType {
 
 export class GameCard {
   suit: CardSuit;
-  number: Number;
+  number: number;
   type: CardType;
-  playable: Boolean;
+  playable: boolean;
 
-  constructor(suit: CardSuit, number: Number, type: CardType, playable: Boolean = false) {
+  constructor(suit: CardSuit, number: number, type: CardType, playable: boolean = false) {
     this.suit = suit;
     this.number = number;
     this.type = type;
