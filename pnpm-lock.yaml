@@ -58,6 +58,7 @@ importers:
       '@testing-library/jest-dom': 5.11.2
       '@testing-library/vue': 5.0.4_d81dac297579cfd5597855dabf60f13b
       '@types/jest': 24.9.1
+      '@types/testing-library__vue': 5.0.0_vue-template-compiler@2.6.11
       '@typescript-eslint/eslint-plugin': 2.34.0_5004700905763c91177aaa7d1d0d56ac
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.7
       '@vue/cli-plugin-babel': 4.5.1_7ef5b090e62b67245da5378b40db626a
@@ -82,6 +83,7 @@ importers:
       '@testing-library/jest-dom': ^5.11.2
       '@testing-library/vue': ^5.0.4
       '@types/jest': ^24.0.19
+      '@types/testing-library__vue': ^5.0.0
       '@typescript-eslint/eslint-plugin': ^2.33.0
       '@typescript-eslint/parser': ^2.33.0
       '@vue/cli-plugin-babel': ~4.5.0
@@ -1895,6 +1897,19 @@ packages:
       vue-template-compiler: '*'
     resolution:
       integrity: sha512-TPkSj+kwQVpUh4FOhcztMUBd1C12CQBOOaOyKuKtloBRkNcBqZJ+t/O6hwX6wdyGFLLMhosMH9VsZk/VF4eerQ==
+  /@types/testing-library__vue/5.0.0_vue-template-compiler@2.6.11:
+    dependencies:
+      '@testing-library/dom': 7.22.0
+      '@vue/test-utils': 1.0.3_d81dac297579cfd5597855dabf60f13b
+      pretty-format: 25.5.0
+      vue: 2.6.11
+      vue-router: 3.4.2
+      vuex: 3.5.1_vue@2.6.11
+    dev: true
+    peerDependencies:
+      vue-template-compiler: '*'
+    resolution:
+      integrity: sha512-R94Vv9UfDoW/Vvb+ZBsy9evZO7utmFhEoe4F7+Xo8G/DpO5TZM/BdL07zkF3sjqWSyRhbHYHwXIrPwJAXQZGHg==
   /@types/uglify-js/3.9.3:
     dependencies:
       source-map: 0.6.1
