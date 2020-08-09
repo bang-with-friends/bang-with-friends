@@ -1,12 +1,11 @@
 {
   "compileOnSave": true,
   "include": [
-    "src/"
+    "src/**/*.ts"
   ],
   "compilerOptions": {
     "outDir": "build",
     "sourceMap": true,
-    "moduleResolution": "node",
     "types": [
       "node",
       "express",
