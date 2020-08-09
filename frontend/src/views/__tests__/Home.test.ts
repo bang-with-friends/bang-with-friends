@@ -24,6 +24,8 @@ describe('Home.vue', () => {
     expect(home.vm.$data.show).toBe('JOIN');
   });
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+
   it('does not show room code when in select mode', async () => {
     const { getByText } = render(Home, {
       data() {

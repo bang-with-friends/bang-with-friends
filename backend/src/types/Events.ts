@@ -23,16 +23,22 @@ export enum SourceKind {
 export abstract class GameEvent {
   name: EventName;
   data: any;
+  canceled: boolean;
 
   constructor(name: EventName, data: any) {
     this.name = name;
     this.data = data;
+    this.canceled = false;
+  }
+
+  stopPropagation() {
+    this.canceled = true;
   }
 }
 
 export class GameStartEvent extends GameEvent {
   constructor() {
-    super(EventName.START_TURN, null);
+    super(EventName.GAME_START, null);
   }
 }
 
