@@ -25,47 +25,44 @@ describe('Home.vue', () => {
   });
 
   it('does not show room code when in select mode', async () => {
-    const home = render(Home, {
+    const { getByText } = render(Home, {
       data() {
         return { show: 'SELECT' };
       },
-    });
+    }) as any;
 
-    expect(home).toBeTruthy();
-    expect(home.getByText('Room code')).not.toBeVisible();
+    expect(getByText('Room code')).not.toBeVisible();
   });
 
   it('shows room code when in create mode', async () => {
     const code = 'TESTabcd';
-    const home = render(Home, {
+    const { getByText } = render(Home, {
       data() {
         return {
           show: 'CREATE',
           code,
         };
       },
-    });
+    }) as any;
 
-    expect(home).toBeTruthy();
-    expect(home.getByText('Room code')).toBeVisible();
-    expect(() => home.getByText(code)).not.toThrow();
-    expect(home.getByText(code)).toBeTruthy();
+    expect(getByText('Room code')).toBeVisible();
+    expect(() => getByText(code)).not.toThrow();
+    expect(getByText(code)).toBeTruthy();
   });
 
   it('shows room code when in join mode', async () => {
     const code = 'TESTabcd';
-    const home = render(Home, {
+    const { getByText } = render(Home, {
       data() {
         return {
           show: 'JOIN',
           code,
         };
       },
-    });
+    }) as any;
 
-    expect(home).toBeTruthy();
-    expect(home.getByText('Room code')).toBeVisible();
-    expect(() => home.getByText(code)).toThrow();
+    expect(getByText('Room code')).toBeVisible();
+    expect(() => getByText(code)).toThrow();
   });
 
   it('completes', async () => {
