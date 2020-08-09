@@ -44,9 +44,8 @@ export default class Home extends Vue {
   }
 
   complete() {
-    if (process.env.NODE_ENV === 'development') {
-      alert(`${this.show} ${this.code} ${this.name}`);
-    }
+    // Socket request to start or join game
+    console.log(this.show, this.code, this.name);
   }
 }
 </script>
