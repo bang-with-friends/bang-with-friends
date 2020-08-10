@@ -8,7 +8,8 @@
     "build:common": "pnpm recursive run build --filter common",
     "build:others": "pnpm recursive run build --filter frontend --filter backend",
     "build": "run-s build:*",
-    "test": "pnpm recursive run test",
+    "test:all": "pnpm recursive run test",
+    "test": "run-s build:common test",
     "lint": "pnpm recursive run lint",
     "checkall": "run-s build test lint",
     "preinstall": "npx only-allow pnpm"
