@@ -1,4 +1,4 @@
-import * as Events from './types/Events';
+import * as Events from 'common/lib/Events';
 
 /* eslint-disable no-multi-spaces, @typescript-eslint/indent */
 export type Priority = 1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9

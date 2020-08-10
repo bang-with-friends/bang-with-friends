@@ -1,4 +1,4 @@
-import * as Events from './types/Events';
+import * as Events from 'common/lib/Events';
 import EventManager, {
   DEFAULT_PRIORITY,
   ListenerMap,
@@ -54,6 +54,9 @@ const eventsToTest: (Events.EventName | Events.GameEvent)[][] = [
   [Events.EventName.PLAYER_UPDATE, new Events.PlayerUpdateEvent({} as any)],
 ];
 /* eslint-enable no-multi-spaces */
+
+// Make sure we're testing all the events.
+expect(eventsToTest.length).toBe(Object.keys(Events.EventName).length);
 
 describe('EventManager', () => {
   it('initializes', () => {
