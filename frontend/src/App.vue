@@ -5,9 +5,10 @@
 </template>
 
 <script lang='ts'>
-import { Vue } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import { css } from 'emotion';
 
+@Component
 export default class App extends Vue {
   styles = {
     app: css({
