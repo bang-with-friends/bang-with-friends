@@ -2,26 +2,23 @@
   <div class='home'>
     <h1>Bang! with Friends</h1>
     <div class='box'>
-      <div v-show='show === ShowState.SELECT' class='buttons'>
-        <div v-on:click.once='create' id='create'>Create new room</div>
-        <div v-on:click.once='join' id='join'>Join a room</div>
-      </div>
-      <div v-show='show !== ShowState.SELECT' class='settings'>
-        <p>Room code</p>
-        <div v-if='show === ShowState.CREATE'>{{ code }}</div>
-        <input v-else v-model='code' />
-        <p>Name</p>
-        <input v-model='name' />
-        <div v-on:click.once='complete' id='complete'>
-          {{ show === ShowState.CREATE ? 'Create' : 'Join' }}
-        </div>
+      <div class='buttons'>
+        <div v-on:click='create' id='create' class='button'>Create new room</div>
+        <div v-on:click='join' id='join' class='button'>Join a room</div>
       </div>
     </div>
+    <CreateJoinDialog
+      v-bind:class='{ hidden: show === ShowState.SELECT }'
+      v-bind:is-join='show === ShowState.JOIN'
+      v-bind:can-edit='false'
+      v-bind:hide='hide'
+    />
   </div>
 </template>
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
+import CreateJoinDialog from '@/components/CreateJoinDialog.vue';
 
 enum ShowState {
   SELECT = 'SELECT',
@@ -29,7 +26,11 @@ enum ShowState {
   JOIN = 'JOIN',
 }
 
-@Component
+@Component({
+  components: {
+    CreateJoinDialog,
+  },
+})
 export default class Home extends Vue {
   show = ShowState.SELECT;
   ShowState = ShowState;
@@ -45,9 +46,37 @@ export default class Home extends Vue {
     this.show = ShowState.JOIN;
   }
 
-  complete() {
-    // Socket request to start or join game
-    console.log(this.show, this.code, this.name);
+  hide() {
+    this.show = ShowState.SELECT;
   }
 }
 </script>
+
+<style>
+  .box {
+    display: flex;
+    justify-content: center;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button {
+    padding: 15px;
+    cursor: pointer;
+    margin: 4px;
+
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px #888;
+    color: white;
+    background: #151b3a;
+
+    transition: background 0.1s;
+  }
+
+  .button:hover {
+    background: #2b3044;
+  }
+</style>
