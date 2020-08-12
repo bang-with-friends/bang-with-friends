@@ -6,7 +6,8 @@
   "scripts": {
     "start": "pnpm recursive run start",
     "build:common": "pnpm recursive run build --filter common",
-    "build": "pnpm recursive run build --filter frontend --filter backend",
+    "build:others": "pnpm recursive run build --filter frontend --filter backend",
+    "build": "run-s build:*",
     "test": "pnpm recursive run test",
     "lint": "pnpm recursive run lint",
     "checkall": "run-s build test lint",
