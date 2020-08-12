@@ -11,7 +11,9 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
+    "common": "link:../common",
     "core-js": "^3.6.5",
+    "emotion": "^10.0.27",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
@@ -19,7 +21,10 @@
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.2",
+    "@testing-library/vue": "^5.0.4",
     "@types/jest": "^24.0.19",
+    "@types/testing-library__vue": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -31,6 +36,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-airbnb": "^5.0.2",
     "@vue/eslint-config-typescript": "^5.0.2",
+    "@vue/server-test-utils": "^1.0.3",
     "@vue/test-utils": "^1.0.3",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",

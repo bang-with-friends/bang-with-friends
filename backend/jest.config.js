@@ -6,4 +6,8 @@ module.exports = {
       packageJson: 'package.json',
     },
   },
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/build/',
+  ],
 };
