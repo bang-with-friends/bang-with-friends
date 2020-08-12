@@ -26,6 +26,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { CardSuit, CardType } from 'common/lib/Cards';
 import { css } from 'emotion';
+import { cardLoader, suitLoader } from '@/utils/imageLoader';
 
 @Component
 export default class Card extends Vue {
@@ -46,8 +47,7 @@ export default class Card extends Vue {
       return '';
     }
 
-    const cards = require.context('@/assets/card/cards', false, /\.png$/);
-    return cards(`./${this.type.toLowerCase()}.png`);
+    return cardLoader(`./${this.type.toLowerCase()}.png`);
   }
 
   get cardSuitFile() {
@@ -55,8 +55,7 @@ export default class Card extends Vue {
       return '';
     }
 
-    const suits = require.context('@/assets/card/suits', false, /\.png$/);
-    return suits(`./${this.suit.toLowerCase()}.png`);
+    return suitLoader(`./${this.suit.toLowerCase()}.png`);
   }
 
   styles = {
