@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <Card :suit='suit' :number='number' :type='type' :playable='false' />
+    <Card :suit='suit' :number='number' :type='type' :playable='false' :width='200' />
   </div>
 </template>
 
@@ -25,7 +25,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { CardSuit, CardType } from 'common/lib/Cards';
 
-import Card from '@/components/Card.vue';
+import Card from '@/components/cards/Card.vue';
 
 enum ShowState {
   SELECT = 'SELECT',

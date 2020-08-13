@@ -24,7 +24,7 @@
 
 <script lang='ts'>
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { CardSuit, CardType } from 'common/lib/Cards';
+import { CardKind, CardSuit, CardType } from 'common/lib/Cards';
 import { css } from 'emotion';
 import { cardLoader, suitLoader } from '@/utils/imageLoader';
 
@@ -37,10 +37,16 @@ export default class Card extends Vue {
   number?: number;
 
   @Prop()
+  kind?: CardKind;
+
+  @Prop()
   type?: CardType;
 
   @Prop({ default: false })
-  playable = false;
+  playable?: boolean;
+
+  @Prop({ default: 1024 })
+  width?: number;
 
   get cardDrawingFile() {
     if (!this.type) {
@@ -61,12 +67,17 @@ export default class Card extends Vue {
   styles = {
     cardWrapper: css({
       position: 'relative',
-      transform: 'scale(0.3)',
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      transform: `scale(${this.width! / 1024})`,
+      userSelect: 'none',
     }),
     cardBackground: css({
       position: 'absolute',
       top: 0,
       left: 0,
+      '& img': {
+        filter: this.kind === CardKind.STATUS ? 'hue-rotate(180deg) saturate(2)' : undefined,
+      },
     }),
     cardContent: css({
       display: 'flex',
