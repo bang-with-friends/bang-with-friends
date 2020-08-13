@@ -3,6 +3,8 @@ import '@testing-library/jest-dom';
 import { CardSuit, CardType } from 'common/lib/Cards';
 import Card from '../Card.vue';
 
+jest.mock('@/utils/imageLoader');
+
 describe('Card.vue', () => {
   it('mounts', () => {
     const card = shallowMount(Card, {

@@ -3,6 +3,8 @@ import { render } from '@testing-library/vue';
 import '@testing-library/jest-dom';
 import Home from '@/views/Home.vue';
 
+jest.mock('@/utils/imageLoader');
+
 describe('Home.vue', () => {
   it('sets show when create button clicked', () => {
     const home = shallowMount(Home, {});

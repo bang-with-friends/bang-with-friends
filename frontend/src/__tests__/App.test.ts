@@ -7,6 +7,8 @@ import Game from '@/views/Game.vue';
 import HelloWorld from '@/components/HelloWorld.vue';
 import { routes, scrollBehavior } from '@/router';
 
+jest.mock('@/utils/imageLoader');
+
 const localVue = createLocalVue();
 localVue.use(VueRouter);
 
