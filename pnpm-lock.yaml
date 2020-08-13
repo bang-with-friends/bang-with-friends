@@ -1,8 +1,14 @@
 importers:
+  .:
+    devDependencies:
+      npm-run-all: 4.1.5
+    specifiers:
+      npm-run-all: ^4.1.5
   backend:
     dependencies:
       '@types/socket.io': 2.1.10
       body-parser: 1.19.0
+      common: 'link:../common'
       cors: 2.8.5
       express: 4.17.1
       lodash: 4.17.19
@@ -30,6 +36,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^3.6.1
       '@typescript-eslint/parser': ^3.8.0
       body-parser: ^1.19.0
+      common: 'link:../common'
       cors: ^2.8.5
       eslint: ^7.6.0
       eslint-config-airbnb-typescript: ^9.0.0
@@ -43,11 +50,28 @@ importers:
       typescript: ^3.9.7
   common:
     devDependencies:
+      '@types/jest': 26.0.9
+      '@types/node': 14.0.27
+      '@typescript-eslint/eslint-plugin': 3.8.0_9195d7e59c976ef8295ee5e80b40ac89
+      '@typescript-eslint/parser': 3.8.0_eslint@7.6.0+typescript@3.9.7
+      eslint: 7.6.0
+      eslint-config-airbnb-typescript: 9.0.0_f832167977d6bb4e4d106c9a54fa5d9e
+      jest: 26.2.2
+      ts-jest: 26.1.4_jest@26.2.2+typescript@3.9.7
       typescript: 3.9.7
     specifiers:
+      '@types/jest': ^26.0.9
+      '@types/node': ^14.0.27
+      '@typescript-eslint/eslint-plugin': ^3.8.0
+      '@typescript-eslint/parser': ^3.8.0
+      eslint: ^7.6.0
+      eslint-config-airbnb-typescript: ^9.0.0
+      jest: ^26.2.2
+      ts-jest: ^26.1.4
       typescript: ^3.9.7
   frontend:
     dependencies:
+      common: 'link:../common'
       core-js: 3.6.5
       register-service-worker: 1.7.1
       vue: 2.6.11
@@ -97,6 +121,7 @@ importers:
       '@vue/eslint-config-typescript': ^5.0.2
       '@vue/server-test-utils': ^1.0.3
       '@vue/test-utils': ^1.0.3
+      common: 'link:../common'
       core-js: ^3.6.5
       eslint: ^6.7.2
       eslint-plugin-import: ^2.20.2
@@ -151,7 +176,7 @@ packages:
       '@babel/generator': 7.11.0
       '@babel/helper-module-transforms': 7.11.0
       '@babel/helpers': 7.10.4
-      '@babel/parser': 7.11.2
+      '@babel/parser': 7.11.3
       '@babel/template': 7.10.4
       '@babel/traverse': 7.11.0
       '@babel/types': 7.11.0
@@ -376,6 +401,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-Vuj/+7vLo6l1Vi7uuO+1ngCDNeVmNbTngcJFKCR/oEtz8tKz0CJxZEGmPt9KcIloZhOZ3Zit6xbpXT2MDlS9Vw==
+  /@babel/parser/7.11.3:
+    dev: true
+    engines:
+      node: '>=6.0.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-REo8xv7+sDxkKvoxEywIdsNFiZLybwdI7hcT5uEPyQrSMB4YQ973BfC9OOrD/81MaIjh6UxdulIQXkjmiH3PcA==
   /@babel/plugin-proposal-async-generator-functions/7.10.5_@babel+core@7.11.1:
     dependencies:
       '@babel/core': 7.11.1
@@ -1098,7 +1130,7 @@ packages:
   /@babel/template/7.10.4:
     dependencies:
       '@babel/code-frame': 7.10.4
-      '@babel/parser': 7.11.2
+      '@babel/parser': 7.11.3
       '@babel/types': 7.11.0
     dev: true
     resolution:
@@ -1109,7 +1141,7 @@ packages:
       '@babel/generator': 7.11.0
       '@babel/helper-function-name': 7.10.4
       '@babel/helper-split-export-declaration': 7.11.0
-      '@babel/parser': 7.11.2
+      '@babel/parser': 7.11.3
       '@babel/types': 7.11.0
       debug: 4.1.1
       globals: 11.12.0
@@ -1650,7 +1682,7 @@ packages:
       integrity: sha512-iIgQNzCm0v7QMhhe4Jjn9uRh+I6GoPmt03CbEtwx3ao8/EfoQcmgtqH4vQ5Db/lxiIGaWDv6nwvunuh0RyX0+A==
   /@types/babel__core/7.1.9:
     dependencies:
-      '@babel/parser': 7.11.2
+      '@babel/parser': 7.11.3
       '@babel/types': 7.11.0
       '@types/babel__generator': 7.6.1
       '@types/babel__template': 7.0.2
@@ -1666,7 +1698,7 @@ packages:
       integrity: sha512-bBKm+2VPJcMRVwNhxKu8W+5/zT7pwNEqeokFOmbvVSqGzFneNxYcEBro9Ac7/N9tlsaPYnZLK8J1LWKkMsLAew==
   /@types/babel__template/7.0.2:
     dependencies:
-      '@babel/parser': 7.11.2
+      '@babel/parser': 7.11.3
       '@babel/types': 7.11.0
     dev: true
     resolution:
@@ -5387,6 +5419,20 @@ packages:
       eslint-plugin-import: ^2.21.2
     resolution:
       integrity: sha512-Snswd5oC6nJaevs3nZoLSTvGJBvzTfnBqOIArkf3cbyTyq9UD79wOk8s+RiL6bhca0p/eRO6veczhf6A/7Jy8Q==
+  /eslint-config-airbnb-base/14.2.0_eslint@7.6.0:
+    dependencies:
+      confusing-browser-globals: 1.0.9
+      eslint: 7.6.0
+      object.assign: 4.1.0
+      object.entries: 1.1.2
+    dev: true
+    engines:
+      node: '>= 6'
+    peerDependencies:
+      eslint: ^5.16.0 || ^6.8.0 || ^7.2.0
+      eslint-plugin-import: ^2.21.2
+    resolution:
+      integrity: sha512-Snswd5oC6nJaevs3nZoLSTvGJBvzTfnBqOIArkf3cbyTyq9UD79wOk8s+RiL6bhca0p/eRO6veczhf6A/7Jy8Q==
   /eslint-config-airbnb-typescript/9.0.0_6b7503ee1248706751246c5e0a3a53f2:
     dependencies:
       '@typescript-eslint/eslint-plugin': 3.8.0_9195d7e59c976ef8295ee5e80b40ac89
@@ -5401,11 +5447,41 @@ packages:
       typescript: '*'
     resolution:
       integrity: sha512-BxckAZU4rwfOidZVucAO120fTSGQAugimS8HFp7OoiordpyNkq5bxSlTPZ2XxSY8Q2NWDIygqtJKqupZld/TXA==
+  /eslint-config-airbnb-typescript/9.0.0_f832167977d6bb4e4d106c9a54fa5d9e:
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 3.8.0_9195d7e59c976ef8295ee5e80b40ac89
+      '@typescript-eslint/parser': 3.8.0_eslint@7.6.0+typescript@3.9.7
+      eslint-config-airbnb: 18.2.0_eslint@7.6.0
+      eslint-config-airbnb-base: 14.2.0_eslint@7.6.0
+    dev: true
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': ^3.6.1
+      eslint: '*'
+      typescript: '*'
+    resolution:
+      integrity: sha512-BxckAZU4rwfOidZVucAO120fTSGQAugimS8HFp7OoiordpyNkq5bxSlTPZ2XxSY8Q2NWDIygqtJKqupZld/TXA==
   /eslint-config-airbnb/18.2.0_2d0a3b79766400155c8e1793948754aa:
     dependencies:
       eslint: 7.6.0
       eslint-config-airbnb-base: 14.2.0_2d0a3b79766400155c8e1793948754aa
       eslint-plugin-import: 2.22.0_eslint@7.6.0
+      object.assign: 4.1.0
+      object.entries: 1.1.2
+    dev: true
+    engines:
+      node: '>= 6'
+    peerDependencies:
+      eslint: ^5.16.0 || ^6.8.0 || ^7.2.0
+      eslint-plugin-import: ^2.21.2
+      eslint-plugin-jsx-a11y: ^6.3.0
+      eslint-plugin-react: ^7.20.0
+      eslint-plugin-react-hooks: ^4 || ^3 || ^2.3.0 || ^1.7.0
+    resolution:
+      integrity: sha512-Fz4JIUKkrhO0du2cg5opdyPKQXOI2MvF8KUvN2710nJMT6jaRUpRE2swrJftAjVGL7T1otLM5ieo5RqS1v9Udg==
+  /eslint-config-airbnb/18.2.0_eslint@7.6.0:
+    dependencies:
+      eslint: 7.6.0
+      eslint-config-airbnb-base: 14.2.0_eslint@7.6.0
       object.assign: 4.1.0
       object.entries: 1.1.2
     dev: true
@@ -5806,12 +5882,12 @@ packages:
   /execa/4.0.3:
     dependencies:
       cross-spawn: 7.0.3
-      get-stream: 5.1.0
+      get-stream: 5.2.0
       human-signals: 1.1.1
       is-stream: 2.0.0
       merge-stream: 2.0.0
       npm-run-path: 4.0.1
-      onetime: 5.1.1
+      onetime: 5.1.2
       signal-exit: 3.0.3
       strip-final-newline: 2.0.0
     dev: true
@@ -6405,6 +6481,14 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-EXr1FOzrzTfGeL0gQdeFEvOMm2mzMOglyiOXSTpPC+iAjAKftbr3jpCMWynogwYnM+eSj9sHGc6wjIcDvYiygw==
+  /get-stream/5.2.0:
+    dependencies:
+      pump: 3.0.0
+    dev: true
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA==
   /get-value/2.0.6:
     dev: true
     engines:
@@ -7762,7 +7846,7 @@ packages:
       '@types/node': 14.0.27
       jest-mock: 26.2.0
       jest-util: 26.2.0
-      jsdom: 16.3.0
+      jsdom: 16.4.0
     dev: true
     engines:
       node: '>= 10.14.2'
@@ -8534,7 +8618,7 @@ packages:
         optional: true
     resolution:
       integrity: sha512-fAl1W0/7T2G5vURSyxBzrJ1LSdQn6Tr5UX/xD4PXDx/PDgwygedfW6El/KIj3xJ7FU61TTYnc/l/B7P49Eqt6g==
-  /jsdom/16.3.0:
+  /jsdom/16.4.0:
     dependencies:
       abab: 2.0.4
       acorn: 7.4.0
@@ -8571,7 +8655,7 @@ packages:
       canvas:
         optional: true
     resolution:
-      integrity: sha512-zggeX5UuEknpdZzv15+MS1dPYG0J/TftiiNunOeNxSl3qr8Z6cIlQpN0IdJa44z9aFxZRIVqRncvEhQ7X5DtZg==
+      integrity: sha512-lYMm3wYdgPhrl7pDcRmvzPhhrGVBeVhPIqeHjzeiHN3DFmD1RBpbExbi8vU7BJdH8VAZYovR8DMt0PNNDM7k8w==
   /jsesc/0.5.0:
     dev: true
     hasBin: true
@@ -9710,6 +9794,14 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-ZpZpjcJeugQfWsfyQlshVoowIIQ1qBGSVll4rfDq6JJVO//fesjoX808hXWfBjY+ROZgpKDI5TRSRBSoJiZ8eg==
+  /onetime/5.1.2:
+    dependencies:
+      mimic-fn: 2.1.0
+    dev: true
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==
   /open/6.4.0:
     dependencies:
       is-wsl: 1.1.0

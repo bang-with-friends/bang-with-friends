@@ -7,7 +7,23 @@ export enum Role {
   OUTLAW = 'OUTLAW',
 }
 
-export enum Character {
+export const rolesMaker = (playerCt: number) => {
+  switch (playerCt) {
+    case 4:
+      return [Role.SHERIFF, Role.RENEGADE, Role.OUTLAW, Role.OUTLAW];
+    case 5:
+      return [Role.SHERIFF, Role.VICE, Role.RENEGADE, Role.OUTLAW, Role.OUTLAW];
+    case 6:
+      return [Role.SHERIFF, Role.VICE, Role.RENEGADE, Role.OUTLAW, Role.OUTLAW, Role.OUTLAW];
+    case 7:
+      return [Role.SHERIFF, Role.VICE, Role.VICE, Role.RENEGADE, Role.OUTLAW,
+        Role.OUTLAW, Role.OUTLAW];
+    default:
+      throw new Error('Invalid Number of Players');
+  }
+};
+
+export enum CharName {
   BART_CASSIDY = 'BART_CASSIDY',
   BLACK_JACK = 'BLACK_JACK',
   CALAMITY_JANET = 'CALAMITY_JANET',
@@ -27,10 +43,11 @@ export enum Character {
 }
 
 export class Player {
+  [index: string]: any;
   id: string;
   name: string;
   role?: Role;
-  character?: Character;
+  character?: CharName;
   maxHealth: number;
   currentHealth: number;
   alive: boolean;
@@ -53,7 +70,7 @@ export class Player {
     this.id = id;
     this.name = name;
     this.maxHealth = -1;
-    this.currentHealth = -1;
+    this.currentHealth = this.maxHealth;
     this.cards = { hand: [], board: [] };
     this.alive = true;
     this.range = 1;

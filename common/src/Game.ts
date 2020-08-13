@@ -11,9 +11,10 @@ export class Game {
   id: string;
   deck: GameCard[];
   discard: GameCard[];
-  turn: string;
+  turn: number;
   state: GameState;
   players: Map<string, Player>;
+  numPlayers: number;
   playerOrder: string[];
   activePlayers: string[];
 
@@ -25,9 +26,10 @@ export class Game {
     this.id = id;
     this.deck = shuffleDeck(makeDeck());
     this.discard = [];
-    this.turn = '';
+    this.turn = -1;
     this.state = GameState.WAITING;
     this.players = new Map();
+    this.numPlayers = 0;
     this.playerOrder = [];
     this.activePlayers = [];
   }

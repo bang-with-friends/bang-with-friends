@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"uri": "vscode-remote://wsl+ubuntu-18.04/mnt/c/Users/Zach/Documents/bang-with-friends/backend"
+		},
+		{
+			"uri": "vscode-remote://wsl+ubuntu-18.04/mnt/c/Users/Zach/Documents/bang-with-friends/common"
+		}
+	],
+	"remoteAuthority": "wsl+ubuntu-18.04",
+	"settings": {}
+}

@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/socket.io": "^2.1.10",
     "body-parser": "^1.19.0",
+    "common": "link:../common",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "lodash": "^4.17.19",

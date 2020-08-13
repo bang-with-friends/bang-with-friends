@@ -1,8 +1,8 @@
 import express from 'express';
 import path from 'path';
-import { GameEvent, EventName, PlayerJoinedEvent } from './types/Events';
-import { Player } from './types/Player';
-import { Game } from './types/Game';
+import { GameEvent, EventName, PlayerJoinedEvent } from 'common/lib/Events';
+import { Player } from 'common/lib/Player';
+import { Game } from 'common/lib/Game';
 
 const app = express();
 const server = require('http').createServer(app);

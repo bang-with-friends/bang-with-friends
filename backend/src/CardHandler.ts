@@ -1,7 +1,7 @@
-import { CardType, GameCard } from './types/Cards';
-import { PickCardEvent, PlayerUpdateEvent, SourceKind } from './types/Events';
-import { Game } from './types/Game';
-import { Player } from './types/Player';
+import { GameCard, CardType } from 'common/lib/Cards';
+import { SourceKind, PickCardEvent, PlayerUpdateEvent } from 'common/lib/Events';
+import { Player } from 'common/lib/Player';
+import { Game } from 'common/lib/Game';
 
 export const handlePlayCard = (card: GameCard, source: Player, target: Player, game: Game) => {
   switch (card.type) {

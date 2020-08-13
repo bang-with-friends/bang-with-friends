@@ -156,14 +156,18 @@ export const makeDeck = () => {
   return allCards;
 };
 
-export const shuffleDeck = (deck: GameCard[]) => {
-  const cards: GameCard[] = [];
-  for (let i = deck.length - 1; i > 0; i -= 1) {
+export const fyShuffle = (array: any[]) => {
+  const cards: any[] = [];
+
+  // Shuffle using the Fisher-Yates algorithm.
+  for (let i = array.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * i);
-    const temp = cards[i] || deck[i].copy();
-    cards[i] = cards[j] || deck[j].copy();
+    const temp = cards[i] || array[i].copy();
+    cards[i] = cards[j] || array[j].copy();
     cards[j] = temp;
   }
 
   return cards;
 };
+
+export const shuffleDeck = (deck: GameCard[]) => fyShuffle(fyShuffle(fyShuffle(deck)));

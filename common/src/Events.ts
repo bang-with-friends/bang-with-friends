@@ -11,7 +11,9 @@ export enum EventName {
   PICK_CARD = 'PICK_CARD',
   PLAYER_UPDATE = 'PLAYER_UPDATE',
   PLAYER_JOINED = 'PLAYER_JOINED',
+  PLAYER_ELIM = 'PLAYER_ELIM',
   ADD_PLAYER = 'ADD_PLAYER',
+  REVEAL_CARD = 'REVEAL_CARD',
 }
 
 export enum SourceKind {
@@ -50,8 +52,9 @@ export class ShuffleCardsEvent extends GameEvent {
   }
 }
 
+// current refers to the player whose turn is starting
 export interface StartTurnData {
-  prevPlayer: string,
+  currentPlayer: string,
   nextPlayer: string,
 }
 
@@ -61,13 +64,9 @@ export class StartTurnEvent extends GameEvent {
   }
 }
 
-export interface EndTurnData {
-  player: string,
-}
-
 export class EndTurnEvent extends GameEvent {
-  constructor(data: EndTurnData) {
-    super(EventName.END_TURN, data);
+  constructor() {
+    super(EventName.END_TURN, null);
   }
 }
 
@@ -147,5 +146,28 @@ export interface AddPlayerData {
 export class AddPlayerEvent extends GameEvent {
   constructor(data: AddPlayerData) {
     super(EventName.ADD_PLAYER, data);
+  }
+}
+
+export interface RevealCardData {
+  source: SourceKind,
+  revealCount: number,
+  selectCount?: number,
+}
+
+export class RevealCardEvent extends GameEvent {
+  constructor(data: RevealCardData) {
+    super(EventName.REVEAL_CARD, data);
+  }
+}
+
+export interface PlayerElimData {
+  deadPlayer: string,
+  killingPlayer?: string,
+}
+
+export class PlayerElimEvent extends GameEvent {
+  constructor(data: PlayerElimData) {
+    super(EventName.PLAYER_ELIM, data);
   }
 }
