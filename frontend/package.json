@@ -8,10 +8,11 @@
     "test": "npm-run-all test:*",
     "test:unit": "vue-cli-service test:unit --coverage",
     "lint": "vue-cli-service lint",
+    "updateCommon": "pnpm install ../common/common-0.1.0.tgz",
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "common": "link:../common",
+    "common": "file:../common/common-0.1.0.tgz",
     "core-js": "^3.6.5",
     "emotion": "^10.0.27",
     "register-service-worker": "^1.7.1",
