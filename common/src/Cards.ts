@@ -2,7 +2,7 @@ export enum CardSuit {
   HEARTS = 'HEARTS',
   SPADES = 'SPADES',
   CLUBS = 'CLUBS',
-  DIAMONDS = 'DIAMONDS'
+  DIAMONDS = 'DIAMONDS',
 }
 
 export enum CardKind {

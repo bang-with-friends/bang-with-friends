@@ -17,11 +17,15 @@
         </div>
       </div>
     </div>
+    <Card :suit='suit' :number='number' :type='type' :playable='false' />
   </div>
 </template>
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
+import { CardSuit, CardType } from 'common/lib/Cards';
+
+import Card from '@/components/Card.vue';
 
 enum ShowState {
   SELECT = 'SELECT',
@@ -29,13 +33,21 @@ enum ShowState {
   JOIN = 'JOIN',
 }
 
-@Component
+@Component({
+  components: {
+    Card,
+  },
+})
 export default class Home extends Vue {
   show = ShowState.SELECT;
   ShowState = ShowState;
 
   code = 'ABCD';
   name = '';
+
+  suit = CardSuit.HEARTS;
+  number = 3;
+  type = CardType.JAIL;
 
   create() {
     this.show = ShowState.CREATE;
