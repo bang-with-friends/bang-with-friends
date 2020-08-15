@@ -293,7 +293,7 @@ export default class Game extends Vue {
         },
       ],
     },
-  ];
+  ].splice(0, 7);
 
   styles = {
     thumbContainer: css({
