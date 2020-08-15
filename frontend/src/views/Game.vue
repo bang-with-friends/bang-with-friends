@@ -38,12 +38,12 @@
             />
           </div>
         </template>
-        <MediumCard style='position: absolute; top: 45%; left: 49%;
-          transform: translate(-100%, -50%);'
+        <MediumCard
+          style='position: absolute; top: 45%; right: 51%; transform: translateY(-50%);'
           title='Stack'
         />
         <MediumCard
-          style='position: absolute; top: 45%; left: 51%; transform: translate(0%, -50%);'
+          style='position: absolute; top: 45%; left: 51%; transform: translateY(-50%);'
           title='Discard'
           :suit='suit'
           :number='number'
@@ -69,10 +69,13 @@ import MediumCard from '@/components/cards/MediumCard.vue';
 // import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 
 const LOCATIONS = [
-  [1, 4, 7],
-  [0, 2, 4, 7],
-  [1, 3, 5, 6, 8],
-  [0, 2, 3, 5, 6, 8],
+  [],
+  [1],
+  [3, 6],
+  [4, 1, 7],
+  [4, 0, 2, 7],
+  [5, 3, 1, 6, 8],
+  [5, 3, 0, 2, 6, 8],
 ];
 
 // eslint-disable-next-line
@@ -95,9 +98,6 @@ const cardKey = (card: any) => {
 })
 
 export default class Game extends Vue {
-  // @Prop() private num: number;
-  numOfPlayers = 4;
-
   suit = CardSuit.SPADES;
   number = 9;
   kind = CardKind.STATUS;
@@ -105,7 +105,7 @@ export default class Game extends Vue {
   playable = false;
 
   get locations() {
-    return LOCATIONS[this.cards.length - 4];
+    return LOCATIONS[this.cards.length - 1];
   }
 
   cardKey = cardKey;
@@ -116,21 +116,21 @@ export default class Game extends Vue {
       cards: [
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 1,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 1,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 1,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
@@ -142,21 +142,21 @@ export default class Game extends Vue {
       cards: [
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 2,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 2,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 2,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
@@ -168,21 +168,21 @@ export default class Game extends Vue {
       cards: [
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 3,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 3,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 3,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
@@ -194,21 +194,21 @@ export default class Game extends Vue {
       cards: [
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 4,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 4,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 4,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
@@ -220,21 +220,21 @@ export default class Game extends Vue {
       cards: [
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 5,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 5,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 5,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
@@ -246,21 +246,21 @@ export default class Game extends Vue {
       cards: [
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 6,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 6,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 6,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
@@ -272,21 +272,21 @@ export default class Game extends Vue {
       cards: [
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 7,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 7,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
         },
         {
           suit: CardSuit.SPADES,
-          number: 9,
+          number: 7,
           kind: CardKind.STATUS,
           type: CardType.JAIL,
           playable: false,
@@ -311,47 +311,53 @@ export default class Game extends Vue {
       display: 'flex',
     }),
     location: [
+      css({ // 0
+        top: '2%',
+        right: '51%',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }),
       css({ // 1
         top: '2%',
-        left: '49%',
-        transform: 'translate(-100%, 0%)',
+        left: '50%',
+        transform: 'translate(-50%, 0%)',
         alignItems: 'center',
         justifyContent: 'center',
       }),
       css({ // 2
-      }),
-      css({ // 3
         top: '2%',
         left: '51%',
-        transform: 'translate(0%, 0%)',
         alignItems: 'center',
         justifyContent: 'center',
       }),
-      css({ // 4
+      css({ // 3
         top: '25%',
         left: '3%',
       }),
-      css({ // 5
+      css({ // 4
+        bottom: '60%',
+        left: '3%',
+        transform: 'translateY(50%)',
       }),
-      css({ // 6
+      css({ // 5
         top: '48%',
         left: '3%',
       }),
-      css({ // 7
+      css({ // 6
         top: '25%',
-        left: '97%',
-        transform: 'translate(-100%, 0%)',
+        right: '3%',
+        justifyContent: 'flex-end',
+      }),
+      css({ // 7
+        bottom: '60%',
+        right: '3%',
+        transform: 'translateY(50%)',
         justifyContent: 'flex-end',
       }),
       css({ // 8
-      }),
-      css({ // 9
         top: '48%',
-        left: '97%',
-        transform: 'translate(-100%, 0%)',
+        right: '3%',
         justifyContent: 'flex-end',
-      }),
-      css({ // 10
       }),
     ],
   }
