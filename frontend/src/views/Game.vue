@@ -311,50 +311,50 @@ export default class Game extends Vue {
       display: 'flex',
     }),
     location: [
-      css({ // 0
+      css({ // 0 (left of top)
         top: '2%',
         right: '51%',
         alignItems: 'center',
         justifyContent: 'center',
       }),
-      css({ // 1
+      css({ // 1 (mid of top)
         top: '2%',
         left: '50%',
         transform: 'translate(-50%, 0%)',
         alignItems: 'center',
         justifyContent: 'center',
       }),
-      css({ // 2
+      css({ // 2 (right of top)
         top: '2%',
         left: '51%',
         alignItems: 'center',
         justifyContent: 'center',
       }),
-      css({ // 3
+      css({ // 3 (top of left)
         top: '25%',
         left: '3%',
       }),
-      css({ // 4
+      css({ // 4 (mid of left)
         bottom: '60%',
         left: '3%',
         transform: 'translateY(50%)',
       }),
-      css({ // 5
+      css({ // 5 (bottom of left)
         top: '48%',
         left: '3%',
       }),
-      css({ // 6
+      css({ // 6 (top of right)
         top: '25%',
         right: '3%',
         justifyContent: 'flex-end',
       }),
-      css({ // 7
+      css({ // 7 (mid of right)
         bottom: '60%',
         right: '3%',
         transform: 'translateY(50%)',
         justifyContent: 'flex-end',
       }),
-      css({ // 8
+      css({ // 8 (bottom of right)
         top: '48%',
         right: '3%',
         justifyContent: 'flex-end',
