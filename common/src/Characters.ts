@@ -1,6 +1,6 @@
 import { EventName } from './Events';
 import { CharName, Player } from './Player';
-import { Priority, DEFAULT_PRIORITY } from '../../backend/src/EventManager';
+import { Priority, DEFAULT_PRIORITY } from './EventManager';
 
 export interface Character {
   charName: CharName;
@@ -109,7 +109,7 @@ export const SidKetchum: Character = {
   charName: CharName.SID_KETCHUM,
   maxHealth: 4,
   effect: {
-    event: EventName.DISCARD_CARD,
+    event: EventName.PLAY_CARD,
     priority: DEFAULT_PRIORITY,
   },
 };

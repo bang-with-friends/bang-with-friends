@@ -1,11 +1,11 @@
-import * as Events from 'common/lib/Events';
+import * as Events from '../Events';
 import EventManager, {
   DEFAULT_PRIORITY,
   ListenerMap,
   MIN_PRIORITY,
   MAX_PRIORITY,
   Priority,
-} from './EventManager';
+} from '../EventManager';
 
 describe('ListenerMap', () => {
   it('initializes', () => {
@@ -47,9 +47,8 @@ const eventsToTest: (Events.EventName | Events.GameEvent)[][] = [
   [Events.EventName.GAME_START,    new Events.GameStartEvent()],
   [Events.EventName.SHUFFLE_CARDS, new Events.ShuffleCardsEvent()],
   [Events.EventName.START_TURN,    new Events.StartTurnEvent({} as any)],
-  [Events.EventName.END_TURN,      new Events.EndTurnEvent({} as any)],
+  [Events.EventName.END_TURN,      new Events.EndTurnEvent()],
   [Events.EventName.PLAY_CARD,     new Events.PlayCardEvent({} as any)],
-  [Events.EventName.DISCARD_CARD,  new Events.DiscardCardEvent({} as any)],
   [Events.EventName.PICK_CARD,     new Events.PickCardEvent({} as any)],
   [Events.EventName.PLAYER_UPDATE, new Events.PlayerUpdateEvent({} as any)],
 ];
@@ -81,8 +80,8 @@ describe('EventManager', () => {
   it('fires listener on event', () => {
     const manager = new EventManager();
 
-    const mockCallback = jest.fn((event: Events.GameEvent) => {
-      event.stopPropagation();
+    const mockCallback = jest.fn((event?: Events.GameEvent) => {
+      if (event) event.stopPropagation();
     });
 
     const id = manager.addEventListener(
@@ -121,8 +120,8 @@ describe('EventManager', () => {
   it('adds and removes listeners', () => {
     const manager = new EventManager();
 
-    const mockCallback = jest.fn((event: Events.GameEvent) => {
-      event.stopPropagation();
+    const mockCallback = jest.fn((event?: Events.GameEvent) => {
+      if (event) event.stopPropagation();
     });
 
     const id = manager.addEventListener(
@@ -149,9 +148,9 @@ describe('EventManager', () => {
   it('fires listeners in priority order', () => {
     const manager = new EventManager();
 
-    const mockCallback = jest.fn((_event: Events.GameEvent, _priority: number) => { });
+    const mockCallback = jest.fn((_event: Events.GameEvent | null, _priority: number) => { });
 
-    const cb = (priority: number) => (event: Events.GameEvent) => mockCallback(event, priority);
+    const cb = (priority: number) => (e?: Events.GameEvent) => mockCallback(e || null, priority);
 
     for (let i = MIN_PRIORITY; i <= MAX_PRIORITY; i += 1) {
       manager.addEventListener(Events.EventName.GAME_START, i as Priority, cb(i));
@@ -177,7 +176,7 @@ describe('EventManager', () => {
   it('fires all listeners of a priority', () => {
     const manager = new EventManager();
 
-    const mockCallback = jest.fn((_event: Events.GameEvent) => { });
+    const mockCallback = jest.fn((_event?: Events.GameEvent) => { });
 
     const num = 3;
     for (let i = 0; i < num; i += 1) {
@@ -196,7 +195,7 @@ describe('EventManager', () => {
   it.each(eventsToTest)('works with all event types', (name: any, event: any) => {
     const manager = new EventManager();
 
-    const mockCallback = jest.fn((_event: Events.GameEvent) => { });
+    const mockCallback = jest.fn((_event?: Events.GameEvent) => { });
 
     manager.addEventListener(name as Events.EventName, DEFAULT_PRIORITY, mockCallback);
 

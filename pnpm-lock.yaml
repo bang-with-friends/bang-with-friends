@@ -5517,8 +5517,10 @@ packages:
     dependencies:
       '@typescript-eslint/eslint-plugin': 3.8.0_9195d7e59c976ef8295ee5e80b40ac89
       '@typescript-eslint/parser': 3.8.0_eslint@7.6.0+typescript@3.9.7
+      eslint: 7.6.0
       eslint-config-airbnb: 18.2.0_2d0a3b79766400155c8e1793948754aa
       eslint-config-airbnb-base: 14.2.0_2d0a3b79766400155c8e1793948754aa
+      typescript: 3.9.7
     dev: true
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^3.6.1
@@ -5539,6 +5541,7 @@ packages:
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^3.6.1
       eslint: '*'
+      eslint-plugin-import: '*'
       typescript: '*'
     resolution:
       integrity: sha512-BxckAZU4rwfOidZVucAO120fTSGQAugimS8HFp7OoiordpyNkq5bxSlTPZ2XxSY8Q2NWDIygqtJKqupZld/TXA==
@@ -13973,6 +13976,6 @@ packages:
     name: common
     requiresBuild: true
     resolution:
-      integrity: sha512-oAwQcWMStUccB5W8h2GNrk/kz3zOTuHsuXa4ddInO33GFL2MwRp+Y+tj8QSUWHjs69NueW/hJyHhI+K+3EvCmA==
+      integrity: sha512-eGCvhBei7bqqWw7EYqlGk0bolasAfVS5znzcY7+ZcFHTc+NwMNd5wEXDvgtIiaQ9cN9iF/17izJyFnGGGek5SQ==
       tarball: 'file:common/common-0.1.0.tgz'
     version: 0.1.0

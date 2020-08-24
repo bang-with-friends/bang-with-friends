@@ -7,7 +7,6 @@ const eventsToTest: (Events.EventName | Events.GameEvent)[][] = [
   [Events.EventName.START_TURN,    new Events.StartTurnEvent({} as any)],
   [Events.EventName.END_TURN,      new Events.EndTurnEvent()],
   [Events.EventName.PLAY_CARD,     new Events.PlayCardEvent({} as any)],
-  [Events.EventName.DISCARD_CARD,  new Events.DiscardCardEvent({} as any)],
   [Events.EventName.PICK_CARD,     new Events.PickCardEvent({} as any)],
   [Events.EventName.PLAYER_UPDATE, new Events.PlayerUpdateEvent({} as any)],
 ];

@@ -7,13 +7,13 @@ export enum EventName {
   START_TURN = 'START_TURN',
   END_TURN = 'END_TURN',
   PLAY_CARD = 'PLAY_CARD',
-  DISCARD_CARD = 'DISCARD_CARD',
   PICK_CARD = 'PICK_CARD',
   PLAYER_UPDATE = 'PLAYER_UPDATE',
   PLAYER_JOINED = 'PLAYER_JOINED',
   PLAYER_ELIM = 'PLAYER_ELIM',
   ADD_PLAYER = 'ADD_PLAYER',
   REVEAL_CARD = 'REVEAL_CARD',
+  CARD_PICKED = 'CARD_PICKED',
 }
 
 export enum SourceKind {
@@ -79,17 +79,6 @@ export interface PlayCardData {
 export class PlayCardEvent extends GameEvent {
   constructor(data: PlayCardData) {
     super(EventName.PLAY_CARD, data);
-  }
-}
-
-export interface DiscardCardData {
-  sourcePlayer: string,
-  card: GameCard
-}
-
-export class DiscardCardEvent extends GameEvent {
-  constructor(data: DiscardCardData) {
-    super(EventName.DISCARD_CARD, data);
   }
 }
 
@@ -169,5 +158,16 @@ export interface PlayerElimData {
 export class PlayerElimEvent extends GameEvent {
   constructor(data: PlayerElimData) {
     super(EventName.PLAYER_ELIM, data);
+  }
+}
+
+export interface CardPickedData {
+  source: SourceKind,
+  card: GameCard,
+}
+
+export class CardPickedEvent extends GameEvent {
+  constructor(data: CardPickedData) {
+    super(EventName.CARD_PICKED, data);
   }
 }

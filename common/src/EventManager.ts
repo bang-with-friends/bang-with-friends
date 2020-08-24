@@ -1,4 +1,4 @@
-import * as Events from 'common/lib/Events';
+import * as Events from './Events';
 
 /* eslint-disable no-multi-spaces, @typescript-eslint/indent */
 export type Priority = 1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9
@@ -18,7 +18,7 @@ export const MIN_PRIORITY = 1 as Priority;
 export const MAX_PRIORITY = 100 as Priority;
 export const DEFAULT_PRIORITY = 50 as Priority;
 
-type ListenerCallback = (data?: Events.GameEvent) => void;
+type ListenerCallback = (data?: any) => void;
 
 // A map of event listener id to callback.
 class ListenerCallbackMap extends Map<number, ListenerCallback> {}

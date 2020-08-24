@@ -4,11 +4,12 @@ import {
   GameCard,
   makeDeck,
   shuffleDeck,
+  CardKind,
 } from '../Cards';
 
 describe('GameCard', () => {
   it('initializes', () => {
-    const card = new GameCard(CardSuit.HEARTS, 3, CardType.BANG);
+    const card = new GameCard(CardSuit.HEARTS, 3, CardType.BANG, CardKind.ACTION);
 
     expect(card).toBeTruthy();
     expect(card.suit).toBe(CardSuit.HEARTS);
@@ -18,7 +19,7 @@ describe('GameCard', () => {
   });
 
   it('makes a new copy', () => {
-    const origCard = new GameCard(CardSuit.HEARTS, 3, CardType.BANG);
+    const origCard = new GameCard(CardSuit.HEARTS, 3, CardType.BANG, CardKind.ACTION);
 
     // Make a copy of the card.
     const card = origCard.copy();
