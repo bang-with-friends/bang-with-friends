@@ -7,7 +7,7 @@ import { charMap, Character } from 'common/lib/Characters';
 import {
   StartTurnData, PickCardEvent, SourceKind, RevealCardEvent,
   PlayerUpdateEvent, EndTurnEvent, StartTurnEvent, PickCardData, PlayCardData, EventName,
-  CardPickedData, MoveCardEvent,
+  CardPickedData, MoveCardEvent, DummyData,
 } from 'common/lib/Events';
 import EventManager, { MAX_PRIORITY, DEFAULT_PRIORITY } from 'common/lib/EventManager';
 
@@ -19,6 +19,9 @@ const makeGameId = () => {
   }
   return result;
 };
+
+const asdf: DummyData = {};
+console.log(asdf);
 
 class BangGame {
   game = new Game(makeGameId());
@@ -306,6 +309,17 @@ class BangGame {
           playerId: data.targetId!,
           field: 'jail',
           newValue: true,
+        }));
+        this.eventManager.onEvent(new MoveCardEvent({
+          source: {
+            kind: SourceKind.PLAYER_HAND,
+            playerId: data.sourceId,
+          },
+          target: {
+            kind: SourceKind.PLAYER_BOARD,
+            playerId: data.targetId!,
+          },
+          card: data.card,
         }));
         break;
       case CardType.MISSED:

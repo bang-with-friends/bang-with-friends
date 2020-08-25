@@ -7,7 +7,8 @@
     "build": "tsc",
     "test": "jest --coverage",
     "lint": "eslint --ext .js,.ts ./src/",
-    "updateCommon": "pnpm install ../common/common-0.1.0.tgz",
+    "removeCommon": "pnpm remove common",
+    "installCommon": "pnpm install ../common/common-0.1.0.tgz",
     "preinstall": "npx only-allow pnpm"
   },
   "license": "MIT",

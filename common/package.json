@@ -10,7 +10,9 @@
   "scripts": {
     "build": "tsc",
     "postbuild": "pnpm pack",
-    "postpack": "pnpm recursive run updateCommon --if-present",
+    "removeAll": "pnpm recursive run removeCommon --if-present",
+    "installAll": "pnpm recursive run installCommon --if-present",
+    "postpack": "run-s removeAll installAll",
     "test": "jest --coverage",
     "lint": "eslint --ext .js,.ts ./src/",
     "preinstall": "npx only-allow pnpm"
