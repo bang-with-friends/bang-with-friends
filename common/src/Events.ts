@@ -14,6 +14,7 @@ export enum EventName {
   ADD_PLAYER = 'ADD_PLAYER',
   REVEAL_CARD = 'REVEAL_CARD',
   CARD_PICKED = 'CARD_PICKED',
+  MOVE_CARD = 'MOVE_CARD',
 }
 
 export enum SourceKind {
@@ -54,8 +55,8 @@ export class ShuffleCardsEvent extends GameEvent {
 
 // current refers to the player whose turn is starting
 export interface StartTurnData {
-  currentPlayer: string,
-  nextPlayer: string,
+  currentId: string,
+  nextId: string,
 }
 
 export class StartTurnEvent extends GameEvent {
@@ -71,8 +72,8 @@ export class EndTurnEvent extends GameEvent {
 }
 
 export interface PlayCardData {
-  sourcePlayer: string,
-  targetPlayer?: string,
+  sourceId: string,
+  targetId?: string,
   card: GameCard
 }
 
@@ -84,19 +85,19 @@ export class PlayCardEvent extends GameEvent {
 
 export interface PickCardData {
   sources: {
-    player?: string;
-    sourceKind: SourceKind;
+    playerId?: string;
+    kind: SourceKind;
     canView: boolean;
   }[];
   receiver: {
     kind: SourceKind;
-    player?: string;
+    playerId?: string;
   };
   optionCount?: number;
   filter: CardType[];
   selectCount: number;
   optional: boolean;
-  picker?: string;
+  pickerId?: string;
 }
 
 export class PickCardEvent extends GameEvent {
@@ -106,7 +107,7 @@ export class PickCardEvent extends GameEvent {
 }
 
 export interface PlayerUpdateData {
-  player: string,
+  playerId: string,
   field: keyof Player,
   newValue: any,
 }
@@ -129,7 +130,7 @@ export class PlayerJoinedEvent extends GameEvent {
 
 export interface AddPlayerData {
   player: Player,
-  game: string,
+  gameId: string,
 }
 
 export class AddPlayerEvent extends GameEvent {
@@ -139,7 +140,10 @@ export class AddPlayerEvent extends GameEvent {
 }
 
 export interface RevealCardData {
-  source: SourceKind,
+  source: {
+    kind: SourceKind,
+    playerId?: string,
+  }
   revealCount: number,
   selectCount?: number,
 }
@@ -151,8 +155,8 @@ export class RevealCardEvent extends GameEvent {
 }
 
 export interface PlayerElimData {
-  deadPlayer: string,
-  killingPlayer?: string,
+  deadDlayerId: string,
+  killingPlayerId?: string,
 }
 
 export class PlayerElimEvent extends GameEvent {
@@ -162,12 +166,33 @@ export class PlayerElimEvent extends GameEvent {
 }
 
 export interface CardPickedData {
-  source: SourceKind,
+  source: {
+    kind: SourceKind,
+    playerId?: string,
+  }
   card: GameCard,
 }
 
 export class CardPickedEvent extends GameEvent {
   constructor(data: CardPickedData) {
     super(EventName.CARD_PICKED, data);
+  }
+}
+
+export interface MoveCardData {
+  source: {
+    kind: SourceKind,
+    playerId?: string,
+  },
+  target: {
+    kind: SourceKind,
+    playerId?: string,
+  }
+  card: GameCard,
+}
+
+export class MoveCardEvent extends GameEvent {
+  constructor(data: MoveCardData) {
+    super(EventName.MOVE_CARD, data);
   }
 }

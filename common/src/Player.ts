@@ -51,6 +51,7 @@ export class Player {
   maxHealth: number;
   currentHealth: number;
   alive: boolean;
+  gun?: GameCard;
   hasBanged: boolean;
   range: number;
   rangeMod: number;

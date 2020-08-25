@@ -13976,6 +13976,6 @@ packages:
     name: common
     requiresBuild: true
     resolution:
-      integrity: sha512-eGCvhBei7bqqWw7EYqlGk0bolasAfVS5znzcY7+ZcFHTc+NwMNd5wEXDvgtIiaQ9cN9iF/17izJyFnGGGek5SQ==
+      integrity: sha512-8lXEIKnRAHVGmSNUsPpXjnxjEqY4HGP0LelQWJy+q7x6ZQDKHFh/8iVPc7fPcs1xV/9gJKfiPHb2jAnfsVkhvA==
       tarball: 'file:common/common-0.1.0.tgz'
     version: 0.1.0

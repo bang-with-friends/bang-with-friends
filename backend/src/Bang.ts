@@ -7,6 +7,7 @@ import { charMap, Character } from 'common/lib/Characters';
 import {
   StartTurnData, PickCardEvent, SourceKind, RevealCardEvent,
   PlayerUpdateEvent, EndTurnEvent, StartTurnEvent, PickCardData, PlayCardData, EventName,
+  CardPickedData, MoveCardEvent,
 } from 'common/lib/Events';
 import EventManager, { MAX_PRIORITY, DEFAULT_PRIORITY } from 'common/lib/EventManager';
 
@@ -29,8 +30,8 @@ class BangGame {
     if (player.maxHealth < player.cards.hand.length) {
       this.eventManager.onEvent(new PickCardEvent({
         sources: [{
-          player: playerid,
-          sourceKind: SourceKind.PLAYER_HAND,
+          playerId: playerid,
+          kind: SourceKind.PLAYER_HAND,
           canView: true,
         }],
         receiver: {
@@ -38,13 +39,13 @@ class BangGame {
         },
         selectCount: player.cards.hand.length - player.maxHealth,
         optional: false,
-        picker: playerid,
+        pickerId: playerid,
         filter: [],
       }));
     }
     this.eventManager.onEvent(new StartTurnEvent({
-      currentPlayer: this.game.activePlayers[(this.game.turn + 1) % this.game.numPlayers],
-      nextPlayer: this.game.activePlayers[(this.game.turn + 2) % this.game.numPlayers],
+      currentId: this.game.activePlayers[(this.game.turn + 1) % this.game.numPlayers],
+      nextId: this.game.activePlayers[(this.game.turn + 2) % this.game.numPlayers],
     }));
   };
 
@@ -67,11 +68,16 @@ class BangGame {
         this.game.turn = i;
       }
     }
+
+    this.eventManager.onEvent(new StartTurnEvent({
+      currentId: this.game.activePlayers[this.game.turn],
+      nextId: this.game.activePlayers[this.game.turn % this.game.numPlayers],
+    }));
   };
 
   // Needs work
   pickCardCallback = (data: PickCardData) => {
-    switch (data.sources[0].sourceKind) {
+    switch (data.sources[0].kind) {
       case SourceKind.DECK:
         break;
       case SourceKind.DISCARD:
@@ -83,28 +89,49 @@ class BangGame {
       case SourceKind.PLAYER_HAND:
         break;
       default:
-        ((_checkExhaustive: never) => {})(data.sources[0].sourceKind);
+        ((_checkExhaustive: never) => {})(data.sources[0].kind);
         throw new Error('Invalid Source');
     }
   };
 
   playCardCallback = (data: PlayCardData) => {
-    const source = this.game.players.get(data.sourcePlayer)!;
-    const target = this.game.players.get(data.targetPlayer || '');
-    source.cards.hand.splice(source.cards.hand.indexOf(data.card), 1);
+    const source = this.game.players.get(data.sourceId)!;
+    const target = this.game.players.get(data.targetId || '');
     if (data.card.kind === CardKind.ACTION) {
+      this.eventManager.onEvent(new MoveCardEvent({
+        source: {
+          kind: SourceKind.PLAYER_HAND,
+          playerId: data.sourceId,
+        },
+        target: {
+          kind: SourceKind.DISCARD,
+        },
+        card: data.card,
+      }));
       this.game.discard.push(data.card);
     } else if (data.card.kind === CardKind.STATUS) {
-      source.cards.board.push(data.card);
+      this.eventManager.onEvent(new MoveCardEvent({
+        source: {
+          kind: SourceKind.PLAYER_HAND,
+          playerId: data.sourceId,
+        },
+        target: {
+          kind: SourceKind.PLAYER_BOARD,
+          playerId: data.sourceId,
+        },
+        card: data.card,
+      }));
     }
     switch (data.card.type) {
       case CardType.BANG: {
-        if (data.targetPlayer) {
+        if (data.targetId) {
           source.hasBanged = true;
           if (target!.barrel) {
             const topCard = this.game.deck[0];
             this.eventManager.onEvent(new RevealCardEvent({
-              source: SourceKind.DECK,
+              source: {
+                kind: SourceKind.DECK,
+              },
               revealCount: 1,
             }));
             if (topCard.suit === CardSuit.HEARTS) {
@@ -113,8 +140,8 @@ class BangGame {
           }
           this.eventManager.onEvent(new PickCardEvent({
             sources: [{
-              player: data.targetPlayer,
-              sourceKind: SourceKind.PLAYER_HAND,
+              playerId: data.targetId,
+              kind: SourceKind.PLAYER_HAND,
               canView: true,
             }],
             receiver: {
@@ -123,20 +150,20 @@ class BangGame {
             selectCount: 1,
             filter: [CardType.MISSED],
             optional: true,
-            picker: data.targetPlayer,
+            pickerId: data.targetId,
           }));
           const missResponseId = this.eventManager.addEventListener(
-            EventName.PLAY_CARD,
+            EventName.CARD_PICKED,
             MAX_PRIORITY,
-            (playData: any) => {
-              if (playData.card.type !== CardType.MISSED) {
+            (pickedData: CardPickedData) => {
+              if (pickedData.card.type !== CardType.MISSED) {
                 this.eventManager.onEvent(new PlayerUpdateEvent({
-                  player: data.targetPlayer!,
+                  playerId: data.targetId!,
                   field: 'currentHealth',
                   newValue: target!.currentHealth - 1,
                 }));
               }
-              this.eventManager.removeEventListener(EventName.PLAY_CARD, missResponseId);
+              this.eventManager.removeEventListener(EventName.CARD_PICKED, missResponseId);
             },
           );
         } else {
@@ -146,7 +173,7 @@ class BangGame {
       }
       case CardType.BARREL:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'barrel',
           newValue: true,
         }));
@@ -154,7 +181,7 @@ class BangGame {
       case CardType.BEER:
         if (this.game.activePlayers.length > 2) {
           this.eventManager.onEvent(new PlayerUpdateEvent({
-            player: data.sourcePlayer,
+            playerId: data.sourceId,
             field: 'currentHealth',
             newValue: source.currentHealth + 1,
           }));
@@ -163,16 +190,16 @@ class BangGame {
       case CardType.CAT_BALOU: {
         this.eventManager.onEvent(new PickCardEvent({
           sources: [{
-            player: data.targetPlayer,
-            sourceKind: SourceKind.PLAYER_BOARD,
+            playerId: data.targetId,
+            kind: SourceKind.PLAYER_BOARD,
             canView: true,
           }, {
-            player: data.targetPlayer,
-            sourceKind: SourceKind.PLAYER_HAND,
+            playerId: data.targetId,
+            kind: SourceKind.PLAYER_HAND,
             canView: false,
           }, {
-            player: data.sourcePlayer,
-            sourceKind: SourceKind.PLAYER_BOARD,
+            playerId: data.sourceId,
+            kind: SourceKind.PLAYER_BOARD,
             canView: true,
           }],
           receiver: {
@@ -181,16 +208,24 @@ class BangGame {
           optional: false,
           selectCount: 1,
           filter: [],
-          picker: data.sourcePlayer,
+          pickerId: data.sourceId,
         }));
         const catBalouResponseId = this.eventManager.addEventListener(
-          EventName.PLAY_CARD,
+          EventName.CARD_PICKED,
           MAX_PRIORITY,
-          (playData: any) => {
-            const cbSource = this.game.players.get(playData.sourcePlayer)!;
-            cbSource.cards.hand.splice(cbSource.cards.hand.indexOf(playData.card), 1);
-            this.game.discard.push(data.card);
-            this.eventManager.removeEventListener(EventName.PLAY_CARD, catBalouResponseId);
+          (pickedData: CardPickedData) => {
+            switch (pickedData.source.kind) {
+              case SourceKind.PLAYER_HAND:
+                target!.cards.hand.splice(target!.cards.hand.indexOf(pickedData.card), 1);
+                break;
+              case SourceKind.PLAYER_BOARD:
+                target!.cards.board.splice(target!.cards.board.indexOf(pickedData.card), 1);
+                break;
+              default:
+                throw new Error('Invalid Cat Balou source');
+            }
+            this.game.discard.push(pickedData.card);
+            this.eventManager.removeEventListener(EventName.CARD_PICKED, catBalouResponseId);
           },
         );
         break;
@@ -198,8 +233,8 @@ class BangGame {
       case CardType.DUEL:
         this.eventManager.onEvent(new PickCardEvent({
           sources: [{
-            player: data.targetPlayer,
-            sourceKind: SourceKind.PLAYER_HAND,
+            playerId: data.targetId,
+            kind: SourceKind.PLAYER_HAND,
             canView: true,
           }],
           receiver: {
@@ -208,12 +243,12 @@ class BangGame {
           optional: true,
           selectCount: 1,
           filter: [CardType.BANG],
-          picker: data.targetPlayer,
+          pickerId: data.targetId,
         }));
         break;
       case CardType.DYNAMITE:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'dynamite',
           newValue: true,
         }));
@@ -221,8 +256,8 @@ class BangGame {
       case CardType.GATLING:
         this.eventManager.onEvent(new PickCardEvent({
           sources: [{
-            player: data.targetPlayer,
-            sourceKind: SourceKind.PLAYER_HAND,
+            playerId: data.targetId,
+            kind: SourceKind.PLAYER_HAND,
             canView: true,
           }],
           receiver: {
@@ -231,30 +266,30 @@ class BangGame {
           optional: true,
           filter: [CardType.MISSED],
           selectCount: 1,
-          picker: data.targetPlayer,
+          pickerId: data.targetId,
         }));
         break;
       case CardType.GENERAL_STORE:
         this.eventManager.onEvent(new PickCardEvent({
           sources: [{
-            sourceKind: SourceKind.GENERAL_STORE,
+            kind: SourceKind.GENERAL_STORE,
             canView: true,
           }],
           receiver: {
-            player: data.sourcePlayer,
+            playerId: data.sourceId,
             kind: SourceKind.PLAYER_HAND,
           },
           selectCount: 1,
           filter: [],
           optional: false,
-          picker: data.sourcePlayer,
+          pickerId: data.sourceId,
         }));
         break;
       case CardType.INDIANS:
         this.eventManager.onEvent(new PickCardEvent({
           sources: [{
-            player: data.targetPlayer,
-            sourceKind: SourceKind.PLAYER_HAND,
+            playerId: data.targetId,
+            kind: SourceKind.PLAYER_HAND,
             canView: true,
           }],
           receiver: {
@@ -263,12 +298,12 @@ class BangGame {
           optional: true,
           selectCount: 1,
           filter: [CardType.BANG],
-          picker: data.targetPlayer,
+          pickerId: data.targetId,
         }));
         break;
       case CardType.JAIL:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.targetPlayer!,
+          playerId: data.targetId!,
           field: 'jail',
           newValue: true,
         }));
@@ -278,70 +313,82 @@ class BangGame {
 
       case CardType.MUSTANG:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'distanceMod',
           newValue: source.distanceMod + 1,
         }));
         break;
-      case CardType.PANIC:
+      case CardType.PANIC: {
         this.eventManager.onEvent(new PickCardEvent({
           sources: [{
-            player: data.targetPlayer,
-            sourceKind: SourceKind.PLAYER_BOARD,
+            playerId: data.targetId,
+            kind: SourceKind.PLAYER_BOARD,
             canView: true,
           }, {
-            player: data.targetPlayer,
-            sourceKind: SourceKind.PLAYER_HAND,
+            playerId: data.targetId,
+            kind: SourceKind.PLAYER_HAND,
             canView: false,
           }],
           receiver: {
-            player: data.sourcePlayer,
+            playerId: data.sourceId,
             kind: SourceKind.PLAYER_HAND,
           },
           optional: false,
           filter: [],
           selectCount: 1,
-          picker: data.sourcePlayer,
+          pickerId: data.sourceId,
         }));
-        this.eventManager.addEventListener(
-          EventName.PLAY_CARD,
+        const panicResponseId = this.eventManager.addEventListener(
+          EventName.CARD_PICKED,
           DEFAULT_PRIORITY,
-          (_playData: any) => {
-
+          (pickedData: CardPickedData) => {
+            switch (pickedData.source.kind) {
+              case SourceKind.PLAYER_HAND:
+                target!.cards.hand.splice(target!.cards.hand.indexOf(pickedData.card), 1);
+                break;
+              case SourceKind.PLAYER_BOARD:
+                target!.cards.board.splice(target!.cards.board.indexOf(pickedData.card), 1);
+                break;
+              default:
+                throw new Error('Invalid Panic source');
+            }
+            source.cards.hand.push(pickedData.card);
+            this.eventManager.removeEventListener(EventName.CARD_PICKED, panicResponseId);
           },
         );
         break;
+      }
       case CardType.REMINGTON:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'range',
           newValue: 3,
         }));
         break;
       case CardType.REV_CARABINE:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'range',
           newValue: 4,
         }));
         break;
       case CardType.SALOON:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'currentHealth',
           newValue: source.currentHealth + 1,
         }));
         break;
       case CardType.SCHOFIELD:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'range',
           newValue: 2,
         }));
         break;
       case CardType.SCOPE:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'rangeMod',
           newValue: source.rangeMod + 1,
         }));
@@ -349,11 +396,11 @@ class BangGame {
       case CardType.STAGECOACH:
         this.eventManager.onEvent(new PickCardEvent({
           sources: [{
-            sourceKind: SourceKind.DECK,
+            kind: SourceKind.DECK,
             canView: false,
           }],
           receiver: {
-            player: data.sourcePlayer,
+            playerId: data.sourceId,
             kind: SourceKind.PLAYER_HAND,
           },
           selectCount: 2,
@@ -363,12 +410,12 @@ class BangGame {
         break;
       case CardType.VOLCANIC:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'range',
           newValue: 1,
         }));
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'volcanic',
           newValue: true,
         }));
@@ -376,11 +423,11 @@ class BangGame {
       case CardType.WELLS_FARGO:
         this.eventManager.onEvent(new PickCardEvent({
           sources: [{
-            sourceKind: SourceKind.DECK,
+            kind: SourceKind.DECK,
             canView: false,
           }],
           receiver: {
-            player: data.sourcePlayer,
+            playerId: data.sourceId,
             kind: SourceKind.PLAYER_HAND,
           },
           selectCount: 3,
@@ -390,7 +437,7 @@ class BangGame {
         break;
       case CardType.WINCHESTER:
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.sourcePlayer,
+          playerId: data.sourceId,
           field: 'range',
           newValue: 5,
         }));
@@ -407,62 +454,72 @@ class BangGame {
   };
 
   startTurnCallback = (data: StartTurnData) => {
-    const currentPlayer = this.game.players.get(data.currentPlayer);
+    const currentPlayer = this.game.players.get(data.currentId);
     if (currentPlayer?.dynamite) {
       const topCard = this.game.deck[0];
-      this.eventManager.onEvent(new RevealCardEvent({ source: SourceKind.DECK, revealCount: 1 }));
+      this.eventManager.onEvent(new RevealCardEvent({
+        source: {
+          kind: SourceKind.DECK,
+        },
+        revealCount: 1,
+      }));
       if (topCard.suit === CardSuit.SPADES && topCard.number >= 2 && topCard.number <= 9) {
         this.eventManager.onEvent(new PlayerUpdateEvent({
-          player: data.currentPlayer,
+          playerId: data.currentId,
           field: 'currentHealth',
           newValue: currentPlayer?.currentHealth - 3,
         }));
-        this.eventManager.onEvent(new PickCardEvent({
-          sources: [{
-            player: data.currentPlayer,
-            sourceKind: SourceKind.PLAYER_BOARD,
-            canView: true,
-          }],
-          receiver: {
-            kind: SourceKind.DISCARD,
-          },
-          selectCount: 1,
-          filter: [CardType.DYNAMITE],
-          optional: false,
-        }));
+        // this.eventManager.onEvent(new PickCardEvent({
+        //   sources: [{
+        //     player: data.currentPlayer,
+        //     sourceKind: SourceKind.PLAYER_BOARD,
+        //     canView: true,
+        //   }],
+        //   receiver: {
+        //     kind: SourceKind.DISCARD,
+        //   },
+        //   selectCount: 1,
+        //   filter: [CardType.DYNAMITE],
+        //   optional: false,
+        // }));
       } else {
-        this.eventManager.onEvent(new PickCardEvent({
-          sources: [{
-            player: data.currentPlayer,
-            canView: true,
-            sourceKind: SourceKind.PLAYER_BOARD,
-          }],
-          receiver: {
-            player: data.nextPlayer,
-            kind: SourceKind.PLAYER_BOARD,
-          },
-          filter: [CardType.DYNAMITE],
-          selectCount: 1,
-          optional: false,
-        }));
+        // this.eventManager.onEvent(new PickCardEvent({
+        //   sources: [{
+        //     player: data.currentPlayer,
+        //     canView: true,
+        //     sourceKind: SourceKind.PLAYER_BOARD,
+        //   }],
+        //   receiver: {
+        //     player: data.nextPlayer,
+        //     kind: SourceKind.PLAYER_BOARD,
+        //   },
+        //   filter: [CardType.DYNAMITE],
+        //   selectCount: 1,
+        //   optional: false,
+        // }));
       }
     }
     if (currentPlayer?.jail) {
       const topCard = this.game.deck[0];
-      this.eventManager.onEvent(new RevealCardEvent({ source: SourceKind.DECK, revealCount: 1 }));
-      this.eventManager.onEvent(new PickCardEvent({
-        sources: [{
-          player: data.currentPlayer,
-          sourceKind: SourceKind.PLAYER_BOARD,
-          canView: true,
-        }],
-        receiver: {
-          kind: SourceKind.DISCARD,
+      this.eventManager.onEvent(new RevealCardEvent({
+        source: {
+          kind: SourceKind.DECK,
         },
-        selectCount: 1,
-        filter: [CardType.JAIL],
-        optional: false,
+        revealCount: 1,
       }));
+      // this.eventManager.onEvent(new PickCardEvent({
+      //   sources: [{
+      //     player: data.currentPlayer,
+      //     sourceKind: SourceKind.PLAYER_BOARD,
+      //     canView: true,
+      //   }],
+      //   receiver: {
+      //     kind: SourceKind.DISCARD,
+      //   },
+      //   selectCount: 1,
+      //   filter: [CardType.JAIL],
+      //   optional: false,
+      // }));
       if (topCard.suit !== CardSuit.HEARTS) {
         this.eventManager.onEvent(new EndTurnEvent());
       }
@@ -470,11 +527,11 @@ class BangGame {
     this.eventManager.onEvent(new PickCardEvent(
       {
         sources: [{
-          sourceKind: SourceKind.DECK,
+          kind: SourceKind.DECK,
           canView: false,
         }],
         receiver: {
-          player: data.nextPlayer,
+          playerId: data.currentId,
           kind: SourceKind.PLAYER_HAND,
         },
         optional: false,
