@@ -1,4 +1,5 @@
 packages:
   - 'common'
-  - 'frontend'
+  - 'frontend_pixi'
+# - 'frontend_vue'
   - 'backend'
