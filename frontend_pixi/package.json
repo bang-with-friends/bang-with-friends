@@ -11,6 +11,8 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "pixi.js": "latest",
+    "pixi.js-legacy": "^5.3.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
@@ -22,6 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "exit 0",
     "updateCommon": "pnpm install ../common/common-0.1.0.tgz",
     "preinstall": "npx only-allow pnpm"
   },
@@ -44,6 +47,8 @@
     ]
   },
   "devDependencies": {
+    "@types/earcut": "^2.1.1",
+    "@types/resize-observer-browser": "^0.1.5",
     "react-refresh": "^0.9.0"
   }
 }

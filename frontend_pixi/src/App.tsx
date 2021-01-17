@@ -1,26 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
+import Game from './Game';
 import './App.css';
+import { Stage } from '@inlet/react-pixi/legacy';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+  <Stage
+    options={{
+      backgroundColor: 0x1099bb,
+      antialias: true,
+      resizeTo: window,
+    }}
+  >
+    <Game />
+  </Stage>
+);
 
 export default App;
