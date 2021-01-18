@@ -3,16 +3,16 @@ import { useApp } from '@inlet/react-pixi/legacy';
 
 const useStageSize = () => {
   const app = useApp();
-  const { view: canvas } = app.renderer;
+  const { view } = app.renderer;
 
   const [stageSize, setStageSize] = useState({
-    width: canvas.width,
-    height: canvas.height,
+    width: view.width,
+    height: view.height,
   });
 
-  const [observer, setObserver] = useState<ResizeObserver | null>(null);
-
   useEffect(() => {
+    const { view: canvas } = app.renderer;
+
     const updateSize = () => {
       setStageSize((prev) => {
         const { width, height } = canvas;
@@ -27,10 +27,9 @@ const useStageSize = () => {
 
     const obs = new ResizeObserver(updateSize);
     obs.observe(canvas);
-    setObserver(obs);
 
-    return () => observer?.unobserve(canvas);
-  }, [setStageSize]);
+    return () => obs.unobserve(canvas);
+  }, [setStageSize, app]);
 
   return stageSize;
 };

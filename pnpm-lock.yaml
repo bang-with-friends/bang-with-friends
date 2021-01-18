@@ -81,6 +81,7 @@ importers:
       '@types/node': 12.19.14
       '@types/react': 16.14.2
       '@types/react-dom': 16.9.10
+      common: file:common/common-0.1.0.tgz
       pixi.js: 5.3.7
       pixi.js-legacy: 5.3.7
       react: 17.0.1
@@ -103,6 +104,7 @@ importers:
       '@types/react': ^16.9.53
       '@types/react-dom': ^16.9.8
       '@types/resize-observer-browser': ^0.1.5
+      common: file:../common/common-0.1.0.tgz
       pixi.js: latest
       pixi.js-legacy: ^5.3.7
       react: ^17.0.1

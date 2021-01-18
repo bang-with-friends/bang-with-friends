@@ -1,6 +1,7 @@
-import { ComponentProps, useEffect, useRef, useState } from 'react';
+import { ComponentProps } from 'react';
 import { Container } from '@inlet/react-pixi/legacy';
 import * as PIXI from 'pixi.js-legacy';
+import useStatefulRef from '../common/useStatefulRef';
 
 type ContainerProps = ComponentProps<typeof Container>;
 
@@ -22,14 +23,7 @@ type IRowProps = PropsFromContainer
   & { crossAxisAlignment?: 'start' | 'center' | 'end' };
 
 const Row = (props: IRowProps) => {
-  const [pixiChildren, setPixiChildren] = useState<PIXI.DisplayObject[]>([]);
-  const containerRef = useRef<PIXI.Container>(null);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      setPixiChildren(containerRef.current.children);
-    }
-  }, [containerRef.current]);
+  const containerRef = useStatefulRef<PIXI.Container>(null);
 
   const {
     mainAxisAlignment,
@@ -50,6 +44,8 @@ const Row = (props: IRowProps) => {
   } else {
     xAnchor = anchor.x;
   }
+
+  const pixiChildren = containerRef.current?.children ?? [];
 
   const heights: number[] = childArray.map((_child, i) => {
     if (pixiChildren.length === 0) return 0;
