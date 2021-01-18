@@ -79,14 +79,24 @@ cardLoader.add('cardBackground', cardBackground);
 
 interface ICardProps {
   draggable?: boolean;
+  onDragStart?: (position: { x: number; y: number }) => void;
   onDrag?: (offset: { x: number; y: number }) => void;
+  onDragEnd?: () => void;
   suit: CardSuit;
   type: CardType;
   number: number;
 }
 
 const Card = (props: ICardProps) => {
-  const { draggable = false, onDrag = () => {}, suit, type, number } = props;
+  const {
+    draggable = false,
+    onDragStart = () => {},
+    onDrag = () => {},
+    onDragEnd = () => {},
+    suit,
+    type,
+    number,
+  } = props;
 
   const app = useApp();
   const cardRef = useStatefulRef<PIXI.Container>(null);
@@ -108,10 +118,12 @@ const Card = (props: ICardProps) => {
   const touchstart = (e: PIXI.InteractionEvent) => {
     const event = e.data.originalEvent as TouchEvent;
     if (event.touches?.length !== 1) return;
-    startPos.current = {
+    const pos = {
       x: event.touches[0].clientX,
       y: event.touches[0].clientY,
-    };
+    }
+    startPos.current = pos;
+    onDragStart(pos);
   };
 
   const touchmove = (e: PIXI.InteractionEvent) => {
@@ -125,15 +137,32 @@ const Card = (props: ICardProps) => {
     onDrag({ x: cardRef.current.x, y: cardRef.current.y });
   };
 
+  const mousedown = (e: PIXI.InteractionEvent) => {
+    const event = e.data.originalEvent as MouseEvent;
+    if (event.buttons !== 1) return;
+    const pos = {
+      x: event.clientX,
+      y: event.clientY,
+    }
+    startPos.current = pos;
+    onDragStart(pos);
+  };
+
   const mousemove = (e: PIXI.InteractionEvent) => {
     const event = e.data.originalEvent as MouseEvent;
     if (event.buttons !== 1) return;
     if (cardRef.current === null) return;
+    if (startPos.current === null) return;
 
     cardRef.current.x += event.movementX;
     cardRef.current.y += event.movementY;
     onDrag({ x: cardRef.current.x, y: cardRef.current.y });
-  }
+  };
+
+  const dragend = () => {
+    startPos.current = null; 
+    onDragEnd();
+  };
 
   return (
     <Container
@@ -142,8 +171,10 @@ const Card = (props: ICardProps) => {
       interactive={draggable}
       touchstart={draggable ? touchstart : undefined}
       touchmove={draggable ? touchmove : undefined}
-      touchend={draggable ? () => { startPos.current = null; } : undefined}
+      touchend={draggable ? dragend : undefined}
+      mousedown={draggable ? mousedown : undefined}
       mousemove={draggable ? mousemove : undefined}
+      mouseup={draggable ? dragend : undefined}
     >
       <Sprite
         texture={resources.cardBackground!.texture}
