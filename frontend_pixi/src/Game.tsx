@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Text, useApp } from '@inlet/react-pixi/legacy';
+import { Container, Text, useApp } from '@inlet/react-pixi/legacy';
 
-import { CardSuit, CardType } from 'common/lib/Cards';
+import { CardSuit, CardType, GameCard } from 'common/lib/Cards';
 
 import Centered from './common/Centered';
-import Column from './common/Column';
 import Row from './common/Row';
-import Card from './sprites/Card';
+import Hand from './components/Hand';
 
 const Game = () => {
   const app = useApp();
@@ -75,7 +74,19 @@ const Game = () => {
 there.`} />
         <Text text='Hello!' />
       </Row>
-      <Card draggable suit={CardSuit.DIAMONDS} type={CardType.JAIL} number={9} />
+      <Container y={200}>
+        <Hand
+          rearrangeable
+          playable
+          cards={[
+            new GameCard(CardSuit.DIAMONDS, 1, CardType.BANG),
+            new GameCard(CardSuit.CLUBS, 7, CardType.JAIL),
+            new GameCard(CardSuit.HEARTS, 12, CardType.BEER),
+            new GameCard(CardSuit.SPADES, 13, CardType.GATLING),
+          ]}
+          scale={0.3}
+        />
+      </Container>
     </Centered>
   );
 };

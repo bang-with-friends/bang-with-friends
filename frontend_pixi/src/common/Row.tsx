@@ -20,7 +20,7 @@ interface IRowPropsVariableHeight {
 
 type IRowProps = PropsFromContainer
   & (IRowPropsSetHeight | IRowPropsVariableHeight)
-  & { crossAxisAlignment?: 'start' | 'center' | 'end' };
+  & { crossAxisAlignment?: 'start' | 'center' | 'end'; a?: any };
 
 const Row = (props: IRowProps) => {
   const containerRef = useStatefulRef<PIXI.Container>(null);

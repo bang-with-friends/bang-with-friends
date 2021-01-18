@@ -5,7 +5,7 @@ import { Stage } from '@inlet/react-pixi/legacy';
 const App = () => (
   <Stage
     options={{
-      backgroundColor: 0x1099bb,
+      backgroundColor: 0x141428,
       antialias: true,
       resizeTo: window,
     }}
