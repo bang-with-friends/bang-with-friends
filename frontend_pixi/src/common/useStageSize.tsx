@@ -5,9 +5,11 @@ const useStageSize = () => {
   const app = useApp();
   const { view } = app.renderer;
 
+  const scale = window.devicePixelRatio;
+
   const [stageSize, setStageSize] = useState({
-    width: view.width,
-    height: view.height,
+    width: view.width / scale,
+    height: view.height / scale,
   });
 
   useEffect(() => {
@@ -15,7 +17,8 @@ const useStageSize = () => {
 
     const updateSize = () => {
       setStageSize((prev) => {
-        const { width, height } = canvas;
+        const width = canvas.width / scale;
+        const height = canvas.height / scale;
         if (prev.width === width && prev.height === height) return prev;
 
         return {
