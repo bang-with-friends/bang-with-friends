@@ -32,7 +32,7 @@ const useStageSize = () => {
     obs.observe(canvas);
 
     return () => obs.unobserve(canvas);
-  }, [setStageSize, app]);
+  }, [setStageSize, app, scale]);
 
   return stageSize;
 };
