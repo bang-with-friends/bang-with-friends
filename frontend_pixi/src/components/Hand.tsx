@@ -36,15 +36,20 @@ const Hand = (props: IHandProps) => {
     const newCards = new Set<GameCard>(cards);
     const sharedOrder: GameCard[] = [];
 
+    let wasRemoved = false;
     orderedCards.forEach((card) => {
       if (newCards.has(card)) {
         sharedOrder.push(card);
         newCards.delete(card);
+      } else {
+        wasRemoved = true;
       }
     });
 
-    setOrderedCards([ ...sharedOrder, ...newCards.values() ]);
-  }, [cards, rearrangeable]);
+    if (newCards.size > 0 || wasRemoved) {
+      setOrderedCards([ ...sharedOrder, ...newCards.values() ]);
+    }
+  }, [cards, rearrangeable, orderedCards]);
 
   const numCards = orderedCards.length;
   const cardWidth = 575 * scale;

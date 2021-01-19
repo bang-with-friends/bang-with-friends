@@ -28,6 +28,12 @@ const Game = () => {
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
   const [scale, setScale] = useState(1);
+  const [cards] = useState<GameCard[]>([
+    new GameCard(CardSuit.DIAMONDS, 1, CardType.BANG),
+    new GameCard(CardSuit.CLUBS, 7, CardType.JAIL),
+    new GameCard(CardSuit.HEARTS, 12, CardType.BEER),
+    new GameCard(CardSuit.SPADES, 13, CardType.GATLING),
+  ]);
 
   return (
     <Centered>
@@ -78,12 +84,7 @@ there.`} />
         <Hand
           rearrangeable
           playable
-          cards={[
-            new GameCard(CardSuit.DIAMONDS, 1, CardType.BANG),
-            new GameCard(CardSuit.CLUBS, 7, CardType.JAIL),
-            new GameCard(CardSuit.HEARTS, 12, CardType.BEER),
-            new GameCard(CardSuit.SPADES, 13, CardType.GATLING),
-          ]}
+          cards={cards}
           scale={0.3}
         />
       </Container>
