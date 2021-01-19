@@ -1,11 +1,12 @@
 import { useCallback, useRef } from 'react';
 import { Container, Sprite, Text } from '@inlet/react-pixi/legacy';
+import { ColorReplaceFilter } from 'pixi-filters';
 import * as PIXI from 'pixi.js-legacy';
 
-import { CardSuit, CardType, GameCard } from 'common/lib/Cards';
+import { CardKind, CardSuit, CardType, GameCard } from 'common/lib/Cards';
 import PngSource from '*.png';
 
-import cardBackground from '../assets/card/background.png';
+import cardBackground from '../assets/card/background.svg';
 import {
   bang,
   beer,
@@ -81,6 +82,37 @@ const cardNumber: { [key: number]: string } = {
   13: 'K',
 };
 
+const cardKind: { [type in CardType]: CardKind } = {
+  [CardType.BANG]: CardKind.ACTION,
+  [CardType.MISSED]: CardKind.ACTION,
+  [CardType.BEER]: CardKind.ACTION,
+  [CardType.CAT_BALOU]: CardKind.ACTION,
+  [CardType.PANIC]: CardKind.ACTION,
+  [CardType.DUEL]: CardKind.ACTION,
+  [CardType.INDIANS]: CardKind.ACTION,
+  [CardType.GENERAL_STORE]: CardKind.ACTION,
+  [CardType.STAGECOACH]: CardKind.ACTION,
+  [CardType.WELLS_FARGO]: CardKind.ACTION,
+  [CardType.GATLING]: CardKind.ACTION,
+  [CardType.SALOON]: CardKind.ACTION,
+
+  [CardType.JAIL]: CardKind.STATUS,
+  [CardType.SCHOFIELD]: CardKind.STATUS,
+  [CardType.MUSTANG]: CardKind.STATUS,
+  [CardType.BARREL]: CardKind.STATUS,
+  [CardType.VOLCANIC]: CardKind.STATUS,
+  [CardType.SCOPE]: CardKind.STATUS,
+  [CardType.DYNAMITE]: CardKind.STATUS,
+  [CardType.REMINGTON]: CardKind.STATUS,
+  [CardType.REV_CARABINE]: CardKind.STATUS,
+  [CardType.WINCHESTER]: CardKind.STATUS,
+};
+
+const backgroundFilter: { [kind in CardKind]: ColorReplaceFilter } = {
+  [CardKind.ACTION]: new ColorReplaceFilter(0xff0000, 0xa98a52, 0.001),
+  [CardKind.STATUS]: new ColorReplaceFilter(0xff0000, 0x625d7f, 0.001),
+};
+
 const getSuitKey = (suit: CardSuit) => `cardsuit_${suit}`;
 const getTypeKey = (type: CardType) => `cardtype_${type}`;
 
@@ -149,7 +181,6 @@ const Card = (props: ICardProps) => {
         width={512}
         height={730.5}
         opacity={0}
-        borderRadius={16}
       />
     </Container>
   );
@@ -260,6 +291,7 @@ const Card = (props: ICardProps) => {
         texture={resources.cardBackground!.texture}
         scale={0.5}
         anchor={0.5}
+        filters={[backgroundFilter[cardKind[type]]]}
       />
       <Container y={100}>
         { resources[getTypeKey(type)] !== undefined ?

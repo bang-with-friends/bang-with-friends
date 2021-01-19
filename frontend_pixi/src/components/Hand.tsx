@@ -133,7 +133,7 @@ const Hand = (props: IHandProps) => {
               width={512 * scale}
               height={730.5 * scale}
               opacity={i === ghostCard ? 0.7 : 0}
-              borderRadius={16 * scale}
+              borderRadius={32 * scale}
             />
             <Rectangle
               x={(-256 + 20) * scale}
