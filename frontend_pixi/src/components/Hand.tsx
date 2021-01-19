@@ -20,37 +20,33 @@ interface IHandProps {
 const Hand = (props: IHandProps) => {
   const { rearrangeable = false, playable = false, cards, scale = 1 } = props;
 
+  const [orderedCards, setOrderedCards] = useState<GameCard[]>([]);
   const [draggingCard, setDraggingCard] = useState<number>(-1);
   const [ghostCard, setGhostCard] = useState<number>(-1);
   const [highlightCard, setHighlightCard] = useState<number>(-1);
   const [wasDragging, setWasDragging] = useState<number>(-1);
   const dragPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const orderedCards = useRef<GameCard[]>([]);
-
-  const [, setV] = useState(0);
-  const rerender = () => setV((o) => o + 1);
 
   useEffect(() => {
     if (!rearrangeable) {
-      orderedCards.current = cards;
+      setOrderedCards(cards);
       return;
     }
 
     const newCards = new Set<GameCard>(cards);
     const sharedOrder: GameCard[] = [];
 
-    orderedCards.current.forEach((card) => {
+    orderedCards.forEach((card) => {
       if (newCards.has(card)) {
         sharedOrder.push(card);
         newCards.delete(card);
       }
     });
 
-    orderedCards.current = [ ...sharedOrder, ...newCards.values() ];
-    rerender();
+    setOrderedCards([ ...sharedOrder, ...newCards.values() ]);
   }, [cards, rearrangeable]);
 
-  const numCards = orderedCards.current.length;
+  const numCards = orderedCards.length;
   const cardWidth = 575 * scale;
 
   const springConfig = {
@@ -93,13 +89,13 @@ const Hand = (props: IHandProps) => {
   const saveNewOrder = () => {
     let newOrderedCards: GameCard[] = [];
     if (draggingCard === ghostCard || ghostCard === -1) { 
-      newOrderedCards = orderedCards.current;
+      newOrderedCards = orderedCards;
     } else {
-      orderedCards.current.forEach((oCard, oI) => {
+      orderedCards.forEach((oCard, oI) => {
         if (oI === draggingCard) return;
         if (oI === ghostCard) {
           if (ghostCard > draggingCard) newOrderedCards.push(oCard);
-          newOrderedCards.push(orderedCards.current[draggingCard]);
+          newOrderedCards.push(orderedCards[draggingCard]);
           if (ghostCard < draggingCard) newOrderedCards.push(oCard);
           return;
         }
@@ -108,7 +104,7 @@ const Hand = (props: IHandProps) => {
       });
     }
 
-    orderedCards.current = newOrderedCards;
+    setOrderedCards(newOrderedCards);
     setHighlightCard(ghostCard);
     setGhostCard(-1);
     setWasDragging(-1);
@@ -121,7 +117,7 @@ const Hand = (props: IHandProps) => {
   return (
     <Container anchor={0.5} x={(1 - numCards) * cardWidth * 0.5}>
       <Container sortableChildren={true}>
-        {orderedCards.current.map((_, i) => (
+        {orderedCards.map((_, i) => (
           <Container
             key={`ghost-${i}`}
             x={cardWidth * i}
@@ -146,7 +142,7 @@ const Hand = (props: IHandProps) => {
         ))}
       </Container>
       <Container sortableChildren={true}>
-        {orderedCards.current.map((card, i) => {
+        {orderedCards.map((card, i) => {
           let immediate = false;
           const to = getPosition(i);
           if (i === wasDragging) {

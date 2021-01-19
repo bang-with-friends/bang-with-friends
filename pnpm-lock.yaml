@@ -73,7 +73,8 @@ importers:
       typescript: ^3.9.7
   frontend_pixi:
     dependencies:
-      '@inlet/react-pixi': 6.0.7_14b54e1be89ce43517863a988031fec1
+      '@inlet/react-pixi': 6.0.7_cf816d35b105bac7aaf31e614ab74d34
+      '@react-spring/animated': 9.0.0-rc.3_react@17.0.1
       '@testing-library/jest-dom': 5.11.9
       '@testing-library/react': 11.2.3_react-dom@17.0.1+react@17.0.1
       '@testing-library/user-event': 12.6.0
@@ -87,15 +88,17 @@ importers:
       react: 17.0.1
       react-dom: 17.0.1_react@17.0.1
       react-scripts: 4.0.1_typescript@4.1.3
-      react-spring: 8.0.27_react-dom@17.0.1+react@17.0.1
+      react-spring: 9.0.0-rc.3_react-dom@17.0.1+react@17.0.1
       typescript: 4.1.3
       web-vitals: 0.2.4
     devDependencies:
       '@types/earcut': 2.1.1
       '@types/resize-observer-browser': 0.1.5
       react-refresh: 0.9.0
+      replace-in-file: 6.1.0
     specifiers:
       '@inlet/react-pixi': ^6.0.7
+      '@react-spring/animated': ^9.0.0-rc.3
       '@testing-library/jest-dom': ^5.11.4
       '@testing-library/react': ^11.1.0
       '@testing-library/user-event': ^12.1.10
@@ -112,11 +115,16 @@ importers:
       react-dom: ^17.0.1
       react-refresh: ^0.9.0
       react-scripts: 4.0.1
-      react-spring: ^8.0.27
+      react-spring: ^9.0.0-rc.3
+      replace-in-file: ^6.1.0
       typescript: ^4.0.3
       web-vitals: ^0.2.4
 lockfileVersion: 5.2
 packages:
+  /@alloc/types/1.3.0:
+    dev: false
+    resolution:
+      integrity: sha512-mH7LiFiq9g6rX2tvt1LtwsclfG5hnsmtIfkZiauAGrm1AwXhoRS0sF2WrN9JGN7eV5vFXqNaB0eXZ3IvMsVi9g==
   /@babel/code-frame/7.10.4:
     dependencies:
       '@babel/highlight': 7.10.4
@@ -1933,14 +1941,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-tAag0jEcjwH+P2quUfipd7liWCNX2F8NvYjQp2wtInsZxnMlypdw0FtAOLxtvvkO+GSRRbmNi8m/5y42PQJYCQ==
-  /@inlet/react-pixi/6.0.7_14b54e1be89ce43517863a988031fec1:
+  /@inlet/react-pixi/6.0.7_cf816d35b105bac7aaf31e614ab74d34:
     dependencies:
       performance-now: 2.1.0
       pixi.js: 5.3.7
       react: 17.0.1
       react-dom: 17.0.1_react@17.0.1
       react-reconciler: 0.26.1_react@17.0.1
-      react-spring: 8.0.27_react-dom@17.0.1+react@17.0.1
+      react-spring: 9.0.0-rc.3_react-dom@17.0.1+react@17.0.1
       replace-in-file: 6.1.0
     dev: false
     peerDependencies:
@@ -2596,6 +2604,109 @@ packages:
         optional: true
     resolution:
       integrity: sha512-Loc4UDGutcZ+Bd56hBInkm6JyjyCwWy4t2wcDXzN8EDPANgVRj0VP8Nxn0Zq2pc+WKauZwEivQgbDGg4xZO20A==
+  /@react-spring/animated/9.0.0-rc.3_react@17.0.1:
+    dependencies:
+      '@babel/runtime': 7.12.5
+      '@react-spring/shared': 9.0.0-rc.3
+      react-layout-effect: 1.0.5_react@17.0.1
+    dev: false
+    peerDependencies:
+      react: '*'
+    resolution:
+      integrity: sha512-dAvgtKhkYpzzr+EkmZ4ZuJ5CujxCW0LaT109DvO/2MQNk3EWIxcgl+ik4tSulSbgau1GN8RlkRKyDp0wISdQ3Q==
+  /@react-spring/core/9.0.0-rc.3_react@17.0.1:
+    dependencies:
+      '@babel/runtime': 7.12.5
+      '@react-spring/animated': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/shared': 9.0.0-rc.3
+      react-layout-effect: 1.0.5_react@17.0.1
+      use-memo-one: 1.1.1_react@17.0.1
+    dev: false
+    peerDependencies:
+      react: '*'
+    requiresBuild: true
+    resolution:
+      integrity: sha512-3OzsVFxpfMJNkkQj8TwAH3NhUAX76AXu6WkslQF4EgBeEoG5eY3m+VvM9RsAsGWDuBKpscZ/wBpFt5Ih6KdGHA==
+  /@react-spring/konva/9.0.0-rc.3_react@17.0.1:
+    dependencies:
+      '@babel/runtime': 7.12.5
+      '@react-spring/animated': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/core': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/shared': 9.0.0-rc.3
+      react: 17.0.1
+    dev: false
+    peerDependencies:
+      konva: '>=2.6'
+      react: '>=16.8'
+      react-konva: '>=16.8'
+    resolution:
+      integrity: sha512-uampLRgrHIqA3ilnheePUVEUE+fdeipXORI4XZJFsORP01CUJeJCxBwMagaxvsHJAtuNErMI/IebE1T2W8i5qA==
+  /@react-spring/native/9.0.0-rc.3_react@17.0.1:
+    dependencies:
+      '@babel/runtime': 7.12.5
+      '@react-spring/animated': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/core': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/shared': 9.0.0-rc.3
+      react: 17.0.1
+    dev: false
+    peerDependencies:
+      react: '>=16.8'
+      react-native: '>=0.58'
+    resolution:
+      integrity: sha512-7JSixJLfzg8V0IrgyGS3gGr2v8CGh4Kym15Htp3CJq74GFBJMyaQS0KaMjieXnw5alTpQoeGBESfA3v5dPlPYg==
+  /@react-spring/shared/9.0.0-rc.3:
+    dependencies:
+      '@alloc/types': 1.3.0
+      '@babel/runtime': 7.12.5
+      fluids: 0.1.10
+      tslib: 1.14.1
+    dev: false
+    resolution:
+      integrity: sha512-dd50TxwwMWd+dSB0InjndUN9w17cbnMCPy+0sag6zRxxKIo7eOyWSliOtLKxvufgmdC8Prm4M3GT5dmB1yxKEQ==
+  /@react-spring/three/9.0.0-rc.3_react@17.0.1:
+    dependencies:
+      '@babel/runtime': 7.12.5
+      '@react-spring/animated': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/core': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/shared': 9.0.0-rc.3
+      react: 17.0.1
+    dev: false
+    peerDependencies:
+      react: '>=16.11'
+      react-three-fiber: '>=4.0'
+      three: '>=0.115'
+    resolution:
+      integrity: sha512-H55T+Dnck+hsJ8WgE+tb89ngX1E1lDOpMBG4mGzNLGok6XgGqN0VBsHRN3QDl+aPfmJI1BPFPR6b6WbhwqRNbw==
+  /@react-spring/web/9.0.0-rc.3_react-dom@17.0.1+react@17.0.1:
+    dependencies:
+      '@babel/runtime': 7.12.5
+      '@react-spring/animated': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/core': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/shared': 9.0.0-rc.3
+      react: 17.0.1
+      react-dom: 17.0.1_react@17.0.1
+    dev: false
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    resolution:
+      integrity: sha512-rEvipblmihiz8+Eo01zDp5dqWn6XfYk8q2rlN9c18YIOL4o6nuY/VplDoocUMHYfH4liurpO4o1QudKOO1nAiQ==
+  /@react-spring/zdog/9.0.0-rc.3_react-dom@17.0.1+react@17.0.1:
+    dependencies:
+      '@babel/runtime': 7.12.5
+      '@react-spring/animated': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/core': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/shared': 9.0.0-rc.3
+      react: 17.0.1
+      react-dom: 17.0.1_react@17.0.1
+    dev: false
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+      react-zdog: '>=1.0'
+      zdog: '>=1.0'
+    resolution:
+      integrity: sha512-fl2JI098sfOJ+BaS9xCrnz8NSimL8yPrVwO0lHSpXLn/q3o3MYmRAeJnZQv8yDtT6isTHua6Tfb9vWuZWEXSmA==
   /@rollup/plugin-node-resolve/7.1.3_rollup@1.32.1:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@1.32.1
@@ -6690,6 +6801,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==
+  /fluids/0.1.10:
+    dev: false
+    resolution:
+      integrity: sha512-66FLmUJOrkvEHIsRVeM+88MG0bjd2TOBuR0BkM0hzyCb68W9drzqeX/AHDNp3ouZALQN7JvBvmKdVhHI+PZsdg==
   /flush-write-stream/1.1.1:
     dependencies:
       inherits: 2.0.4
@@ -11001,6 +11116,14 @@ packages:
   /react-is/17.0.1:
     resolution:
       integrity: sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
+  /react-layout-effect/1.0.5_react@17.0.1:
+    dependencies:
+      react: 17.0.1
+    dev: false
+    peerDependencies:
+      react: '>=16.8'
+    resolution:
+      integrity: sha512-zdRXHuch+OBHU6bvjTelOGUCM+UDr/iCY+c0wXLEAc+G4/FlcJruD/hUOzlKH5XgO90Y/BUJPNhI/g9kl+VAsA==
   /react-reconciler/0.26.1_react@17.0.1:
     dependencies:
       loose-envify: 1.4.0
@@ -11100,18 +11223,21 @@ packages:
         optional: true
     resolution:
       integrity: sha512-NnniMSC/wjwhcJAyPJCWtxx6CWONqgvGgV9+QXj1bwoW/JI++YF1eEf3Upf/mQ9KmP57IBdjzWs1XvnPq7qMTQ==
-  /react-spring/8.0.27_react-dom@17.0.1+react@17.0.1:
+  /react-spring/9.0.0-rc.3_react-dom@17.0.1+react@17.0.1:
     dependencies:
       '@babel/runtime': 7.12.5
-      prop-types: 15.7.2
-      react: 17.0.1
-      react-dom: 17.0.1_react@17.0.1
+      '@react-spring/core': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/konva': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/native': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/three': 9.0.0-rc.3_react@17.0.1
+      '@react-spring/web': 9.0.0-rc.3_react-dom@17.0.1+react@17.0.1
+      '@react-spring/zdog': 9.0.0-rc.3_react-dom@17.0.1+react@17.0.1
     dev: false
     peerDependencies:
-      react: '>= 16.8.0'
-      react-dom: '>= 16.8.0'
+      react: '*'
+      react-dom: '*'
     resolution:
-      integrity: sha512-nDpWBe3ZVezukNRandTeLSPcwwTMjNVu1IDq9qA/AMiUqHuRN4BeSWvKr3eIxxg1vtiYiOLy4FqdfCP5IoP77g==
+      integrity: sha512-VX5Gi6svgRzjGvJ7qVRQBhFN+O2IuPvkSWepIg838LNIMqlc42xdIYtoGJYSqYjNO3IocSfkHlh49WVw6hHMUg==
   /react/17.0.1:
     dependencies:
       loose-envify: 1.4.0
@@ -11382,7 +11508,6 @@ packages:
       chalk: 4.1.0
       glob: 7.1.6
       yargs: 15.4.1
-    dev: false
     engines:
       node: '>=10'
     hasBin: true
@@ -12812,6 +12937,10 @@ packages:
   /tslib/1.13.0:
     resolution:
       integrity: sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
+  /tslib/1.14.1:
+    dev: false
+    resolution:
+      integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
   /tslib/2.1.0:
     dev: false
     resolution:
@@ -13077,6 +13206,14 @@ packages:
     dev: false
     resolution:
       integrity: sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=
+  /use-memo-one/1.1.1_react@17.0.1:
+    dependencies:
+      react: 17.0.1
+    dev: false
+    peerDependencies:
+      react: ^16.8.0
+    resolution:
+      integrity: sha512-oFfsyun+bP7RX8X2AskHNTxu+R3QdE/RC5IefMbqptmACAA/gfol1KDD5KRzPsGMa62sWxGZw+Ui43u6x4ddoQ==
   /use/3.1.1:
     engines:
       node: '>=0.10.0'
@@ -13730,6 +13867,6 @@ packages:
     name: common
     requiresBuild: true
     resolution:
-      integrity: sha512-oAwQcWMStUccB5W8h2GNrk/kz3zOTuHsuXa4ddInO33GFL2MwRp+Y+tj8QSUWHjs69NueW/hJyHhI+K+3EvCmA==
+      integrity: sha512-+yXkoEv3R9DCeWsqIgzHTnRkz+Jm658A8XYIKR8argOcSpA+LXRLFhxQ57KHcHvGDl/z4lBw0NJq2HwXs9ElEg==
       tarball: file:common/common-0.1.0.tgz
     version: 0.1.0
