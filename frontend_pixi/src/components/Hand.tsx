@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Container } from '@inlet/react-pixi/legacy';
+import { useEffect, useState, useRef } from 'react';
+import { Spring } from 'react-spring';
+import { Container } from '@inlet/react-pixi/animated';
 import { GameCard } from 'common/lib/Cards';
 
 import Rectangle from '../common/Rectangle';
@@ -19,39 +20,108 @@ interface IHandProps {
 const Hand = (props: IHandProps) => {
   const { rearrangeable = false, playable = false, cards, scale = 1 } = props;
 
-  const [orderedCards, setOrderedCards] = useState<GameCard[]>([]);
   const [draggingCard, setDraggingCard] = useState<number>(-1);
   const [ghostCard, setGhostCard] = useState<number>(-1);
   const [highlightCard, setHighlightCard] = useState<number>(-1);
+  const [wasDragging, setWasDragging] = useState<number>(-1);
+  const dragPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const orderedCards = useRef<GameCard[]>([]);
+
+  const [, setV] = useState(0);
+  const rerender = () => setV((o) => o + 1);
 
   useEffect(() => {
     if (!rearrangeable) {
-      setOrderedCards(cards);
+      orderedCards.current = cards;
       return;
     }
 
     const newCards = new Set<GameCard>(cards);
     const sharedOrder: GameCard[] = [];
 
-    orderedCards.forEach((card) => {
+    orderedCards.current.forEach((card) => {
       if (newCards.has(card)) {
         sharedOrder.push(card);
         newCards.delete(card);
       }
     });
 
-    setOrderedCards([ ...sharedOrder, ...newCards.values() ]);
-  }, [cards, setOrderedCards, rearrangeable]);
+    orderedCards.current = [ ...sharedOrder, ...newCards.values() ];
+    rerender();
+  }, [cards, rearrangeable]);
 
-  const numCards = orderedCards.length;
+  const numCards = orderedCards.current.length;
+  const cardWidth = 575 * scale;
+
+  const springConfig = {
+    mass: 1,
+    tension: 1000,
+    friction: 100,
+  };
+
+  const getPosition = (
+    index: number,
+    ghost: number = ghostCard,
+    dragging: number = draggingCard,
+  ) => {
+    let adjusted = index;
+    if (ghost === -1 && dragging !== -1) {
+      if (index > dragging) {
+        adjusted -= 0.5;
+      } else if (index < dragging) {
+        adjusted += 0.5;
+      }
+    } else if (index > dragging && index <= ghost) {
+      adjusted -= 1;
+    } else if (index >= ghost && index < dragging) {
+      adjusted += 1;
+    }
+
+    let x = adjusted * cardWidth;
+    let y = 0;
+
+    if (index === wasDragging) {
+      x += dragPos.current.x;
+      y += dragPos.current.y;
+    }
+
+    return { x, y };
+  };
+
   if (numCards === 0) return null;
 
-  const cardWidth = 575 * scale;
+  const saveNewOrder = () => {
+    let newOrderedCards: GameCard[] = [];
+    if (draggingCard === ghostCard || ghostCard === -1) { 
+      newOrderedCards = orderedCards.current;
+    } else {
+      orderedCards.current.forEach((oCard, oI) => {
+        if (oI === draggingCard) return;
+        if (oI === ghostCard) {
+          if (ghostCard > draggingCard) newOrderedCards.push(oCard);
+          newOrderedCards.push(orderedCards.current[draggingCard]);
+          if (ghostCard < draggingCard) newOrderedCards.push(oCard);
+          return;
+        }
+
+        newOrderedCards.push(oCard);
+      });
+    }
+
+    orderedCards.current = newOrderedCards;
+    setHighlightCard(ghostCard);
+    setGhostCard(-1);
+    setWasDragging(-1);
+    setDraggingCard(-1);
+
+    dragPos.current.x = 0;
+    dragPos.current.y = 0;
+  };
 
   return (
     <Container anchor={0.5} x={(1 - numCards) * cardWidth * 0.5}>
       <Container sortableChildren={true}>
-        {orderedCards.map((_, i) => (
+        {orderedCards.current.map((_, i) => (
           <Container
             key={`ghost-${i}`}
             x={cardWidth * i}
@@ -76,66 +146,74 @@ const Hand = (props: IHandProps) => {
         ))}
       </Container>
       <Container sortableChildren={true}>
-        {orderedCards.map((card, i) => (
-          <Container
-            x={cardWidth * i
-              + (i > draggingCard && i <= ghostCard ? -cardWidth : 0)
-              + (i >= ghostCard && i < draggingCard ? cardWidth : 0)}
-            zIndex={i === draggingCard ? 10 : 1}
-          >
-            <Card
-              key={`${cardToString(card)}`}
-              draggable={rearrangeable}
-              clickable={playable}
-              onDragStart={() => {
-                setGhostCard(i);
-                setDraggingCard(i);
-                setHighlightCard(-1);
-              }}
-              onDrag={({ x }) => {
-                let newGhost = i + Math.round(x / cardWidth);
-                newGhost = Math.max(0, newGhost);
-                newGhost = Math.min(numCards - 1, newGhost);
-                
-                if (newGhost !== ghostCard) {
-                  setGhostCard(newGhost);
+        {orderedCards.current.map((card, i) => {
+          let immediate = false;
+          const to = getPosition(i);
+          if (i === wasDragging) {
+            immediate = true;
+          }
+
+          return (
+            <Spring
+              key={cardToString(card)}
+              to={to}
+              config={springConfig}
+              immediate={immediate}
+              onRest={() => {
+                if (immediate) {
+                  saveNewOrder();
                 }
-                console.log(newGhost);
               }}
-              onDragEnd={(container) => {
-                container.x = 0;
-                container.y = 0;
+            >
+              {(props) => (
+                <Container
+                  zIndex={i === draggingCard ? 10 : 1}
+                  {...props}
+                >
+                  <Card
+                    draggable={rearrangeable}
+                    clickable={playable}
+                    onDragStart={() => {
+                      setGhostCard(i);
+                      setDraggingCard(i);
+                      setHighlightCard(-1);
+                    }}
+                    onDrag={(container) => {
+                      dragPos.current.x = container.x;
+                      dragPos.current.y = container.y;
 
-                let newOrderedCards: GameCard[] = [];
-                if (draggingCard === ghostCard) { 
-                  newOrderedCards = orderedCards;
-                } else {
-                  orderedCards.forEach((oCard, oI) => {
-                    if (oI === draggingCard) return;
-                    if (oI === ghostCard) {
-                      if (ghostCard > draggingCard) newOrderedCards.push(oCard);
-                      newOrderedCards.push(orderedCards[draggingCard]);
-                      if (ghostCard < draggingCard) newOrderedCards.push(oCard);
-                      return;
-                    }
+                      let newGhost = i + Math.round(container.x / cardWidth);
+                      newGhost = Math.max(0, newGhost);
+                      newGhost = Math.min(numCards - 1, newGhost);
+                      if (container.y < -275) {
+                        newGhost = -1;
+                      }
+                      
+                      if (newGhost !== ghostCard) {
+                        setGhostCard(newGhost);
+                      }
+                    }}
+                    onDragEnd={(container) => {
+                      dragPos.current.x = container.x;
+                      dragPos.current.y = container.y;
+                      setWasDragging(i);
 
-                    newOrderedCards.push(oCard);
-                  });
-                }
-
-                setOrderedCards(newOrderedCards);
-                setHighlightCard(ghostCard);
-                setGhostCard(-1);
-                setDraggingCard(-1);
-              }}
-              onClick={() => {
-                setHighlightCard((old) => i === old ? -1 : i);
-              }}
-              card={card}
-              scale={scale}
-            />
-          </Container>
-        ))}
+                      requestAnimationFrame(() => {
+                        container.x = 0;
+                        container.y = 0;
+                      });
+                    }}
+                    onClick={() => {
+                      setHighlightCard((old) => i === old ? -1 : i);
+                    }}
+                    card={card}
+                    scale={scale}
+                  />
+                </Container>
+              )}
+            </Spring>
+          );
+        })}
       </Container>
     </Container>
   );

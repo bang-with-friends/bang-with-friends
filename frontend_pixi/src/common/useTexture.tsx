@@ -12,7 +12,7 @@ const useTexture = (generate: (app: PIXI.Renderer) => PIXI.RenderTexture) => {
     setTexture(t);
 
     return () => t.destroy(true);
-  }, [app, setTexture]);
+  }, [app, setTexture, generate]);
 
   return texture;
 };

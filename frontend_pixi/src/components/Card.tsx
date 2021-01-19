@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { Container, Sprite, Text } from '@inlet/react-pixi/legacy';
 import * as PIXI from 'pixi.js-legacy';
 
@@ -98,8 +98,8 @@ cardLoader.add('cardBackground', cardBackground);
 interface ICardProps {
   draggable?: boolean;
   clickable?: boolean;
-  onDragStart?: () => void;
-  onDrag?: (offset: { x: number; y: number }) => void;
+  onDragStart?: (cardContainer: PIXI.Container) => void;
+  onDrag?: (cardContainer: PIXI.Container, prev: { x: number; y: number }) => void;
   onDragEnd?: (cardContainer: PIXI.Container) => void;
   onClick?: () => void;
   scale?: number;
@@ -119,6 +119,7 @@ const Card = (props: ICardProps) => {
   } = props;
   const { suit, type, number } = card;
 
+  // Stateful refs are refs that we WANT to rerender when updated.
   const cardRef = useStatefulRef<PIXI.Container>(null);
   const maskRef = useStatefulRef<PIXI.Sprite>(null);
   const startPos = useRef<{ x: number, y: number} | null>(null);
@@ -126,7 +127,7 @@ const Card = (props: ICardProps) => {
 
   const { loader, resources } = useLoader(cardLoader) ?? {};
 
-  const texture = useTexture((renderer) => {
+  const renderTexture = useCallback((renderer) => {
     const rectangle = new PIXI.Graphics()
       .beginFill(0xffffff)
       .drawRect(25, 25, 974, 974)
@@ -134,7 +135,11 @@ const Card = (props: ICardProps) => {
     rectangle.filters = [new PIXI.filters.BlurFilter(25)];
     const bounds = new PIXI.Rectangle(0, 0, 1024, 1024);
     return renderer.generateTexture(rectangle, PIXI.SCALE_MODES.NEAREST, 1, bounds);
-  });
+  }, []);
+
+  // Create the image mask and filter (blurred edges) with a hook so that it doesn't
+  // unnecessarily create and destroy many times it.
+  const texture = useTexture(renderTexture);
 
   if (!loader || !resources || !texture) return (
     <Container scale={scale}>
@@ -171,13 +176,14 @@ const Card = (props: ICardProps) => {
     e.stopPropagation();
 
     if (!dragged.current) {
-      onDragStart();
+      onDragStart(cardRef.current);
       dragged.current = true;
     }
 
+    const prev = { x: cardRef.current.x, y: cardRef.current.y };
     cardRef.current.x = event.touches[0].clientX - startPos.current.x;
     cardRef.current.y = event.touches[0].clientY - startPos.current.y;
-    onDrag({ x: cardRef.current.x, y: cardRef.current.y });
+    onDrag(cardRef.current, prev);
   };
 
   const mousedown = (e: PIXI.InteractionEvent) => {
@@ -202,13 +208,14 @@ const Card = (props: ICardProps) => {
     e.stopPropagation();
 
     if (!dragged.current) {
-      onDragStart();
+      onDragStart(cardRef.current);
       dragged.current = true;
     }
 
+    const prev = { x: cardRef.current.x, y: cardRef.current.y };
     cardRef.current.x += event.movementX;
     cardRef.current.y += event.movementY;
-    onDrag({ x: cardRef.current.x, y: cardRef.current.y });
+    onDrag(cardRef.current, prev);
   };
 
   const dragend = (e: PIXI.InteractionEvent) => {
@@ -227,6 +234,13 @@ const Card = (props: ICardProps) => {
     startPos.current = null; 
   };
 
+  const dragendoutside = (e: PIXI.InteractionEvent) => {
+    console.log('drag end', dragged.current);
+    if (dragged.current) {
+      dragend(e);
+    }
+  };
+
   return (
     <Container
       ref={cardRef}
@@ -236,9 +250,11 @@ const Card = (props: ICardProps) => {
       touchstart={draggable ? touchstart : undefined}
       touchmove={draggable ? touchmove : undefined}
       touchend={(draggable || clickable) ? dragend : undefined}
+      touchendoutside={(draggable || clickable) ? dragendoutside : undefined}
       mousedown={draggable ? mousedown : undefined}
       mousemove={draggable ? mousemove : undefined}
       mouseup={(draggable || clickable) ? dragend : undefined}
+      mouseupoutside={(draggable || clickable) ? dragendoutside : undefined}
     >
       <Sprite
         texture={resources.cardBackground!.texture}
