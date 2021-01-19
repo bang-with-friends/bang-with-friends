@@ -6,7 +6,8 @@ import * as PIXI from 'pixi.js-legacy';
 import { CardKind, CardSuit, CardType, GameCard } from 'common/lib/Cards';
 import PngSource from '*.png';
 
-import cardBackground from '../assets/card/background.svg';
+import cardBackgroundColor from '../assets/card/background_color.svg';
+import cardBackgroundOverlay from '../assets/card/background_overlay.svg';
 import {
   bang,
   beer,
@@ -109,8 +110,8 @@ const cardKind: { [type in CardType]: CardKind } = {
 };
 
 const backgroundFilter: { [kind in CardKind]: ColorReplaceFilter } = {
-  [CardKind.ACTION]: new ColorReplaceFilter(0xff0000, 0xa98a52, 0.001),
-  [CardKind.STATUS]: new ColorReplaceFilter(0xff0000, 0x625d7f, 0.001),
+  [CardKind.ACTION]: new ColorReplaceFilter(0xff0000, 0xa98a52, 0.5),
+  [CardKind.STATUS]: new ColorReplaceFilter(0xff0000, 0x625d7f, 0.5),
 };
 
 const getSuitKey = (suit: CardSuit) => `cardsuit_${suit}`;
@@ -125,7 +126,8 @@ Object.values(CardType).forEach((type: CardType) => {
   cardLoader.add(getTypeKey(type), typeSources[type]);
 });
 
-cardLoader.add('cardBackground', cardBackground);
+cardLoader.add('cardBackgroundColor', cardBackgroundColor);
+cardLoader.add('cardBackgroundOverlay', cardBackgroundOverlay);
 
 interface ICardProps {
   draggable?: boolean;
@@ -288,10 +290,15 @@ const Card = (props: ICardProps) => {
       mouseupoutside={(draggable || clickable) ? dragendoutside : undefined}
     >
       <Sprite
-        texture={resources.cardBackground!.texture}
+        texture={resources.cardBackgroundColor!.texture}
         scale={0.5}
         anchor={0.5}
         filters={[backgroundFilter[cardKind[type]]]}
+      />
+      <Sprite
+        texture={resources.cardBackgroundOverlay!.texture}
+        scale={0.5}
+        anchor={0.5}
       />
       <Container y={100}>
         { resources[getTypeKey(type)] !== undefined ?
