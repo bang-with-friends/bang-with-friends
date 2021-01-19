@@ -1,0 +1,59 @@
+{
+  "name": "frontend_pixi",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@inlet/react-pixi": "^6.0.7",
+    "@react-spring/animated": "^9.0.0-rc.3",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "common": "file:../common/common-0.1.0.tgz",
+    "pixi.js": "latest",
+    "pixi.js-legacy": "^5.3.7",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.1",
+    "react-spring": "^9.0.0-rc.3",
+    "typescript": "^4.0.3",
+    "web-vitals": "^0.2.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --watchAll=false --passWithNoTests",
+    "eject": "react-scripts eject",
+    "lint": "exit 0",
+    "updateCommon": "pnpm install ../common/common-0.1.0.tgz",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "node postinstall.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/earcut": "^2.1.1",
+    "@types/resize-observer-browser": "^0.1.5",
+    "react-refresh": "^0.9.0",
+    "replace-in-file": "^6.1.0"
+  }
+}

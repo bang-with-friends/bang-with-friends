@@ -1,0 +1,12 @@
+export { default as bang } from './bang.png';
+export { default as beer } from './beer.png';
+export { default as gatling } from './gatling.png';
+export { default as general_store } from './general_store.png';
+export { default as indians } from './indians.png';
+export { default as jail } from './jail.png';
+export { default as missed } from './missed.png';
+export { default as remington } from './remington.png';
+export { default as rev_carabine } from './rev_carabine.png';
+export { default as schofield } from './schofield.png';
+export { default as volcanic } from './volcanic.png';
+export { default as winchester } from './winchester.png';
