@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { Container, Text, useApp } from '@inlet/react-pixi/legacy';
+import { Fragment, useEffect, useState } from 'react';
+import { Text, useApp } from '@inlet/react-pixi/legacy';
 
 import { CardSuit, CardType, GameCard } from 'common/lib/Cards';
 
 import Centered from './common/Centered';
 import Row from './common/Row';
-import Hand from './components/Hand';
+import Board from './components/Board';
 
 const Game = () => {
   const app = useApp();
@@ -36,59 +36,58 @@ const Game = () => {
   ]);
 
   return (
-    <Centered>
-      <Row
-        mainAxisAlignment='space-between'
-        crossAxisAlignment='center'
-        width={800}
-        anchor={0.5}
-      >
-        <Text
-          x={xPos}
-          y={yPos}
-          interactive={true}
-          accessible={true}
-          cursor='pointer'
-          text='Hello, world!'
-          scale={scale}
-          click={(e) => {
-            e.stopPropagation();
+    <Fragment>
+      <Centered>
+        <Row
+          mainAxisAlignment='space-between'
+          crossAxisAlignment='center'
+          width={800}
+          anchor={0.5}
+        >
+          <Text
+            x={xPos}
+            y={yPos}
+            interactive={true}
+            accessible={true}
+            cursor='pointer'
+            text='Hello, world!'
+            scale={scale}
+            click={(e) => {
+              e.stopPropagation();
 
-            if (e.data.originalEvent.shiftKey) {
-              setScale((old) => old * 1.25);
-            } else if (e.data.originalEvent.altKey) {
-              setYPos((old) => old + 10);
-            } else {
-              setXPos((old) => old + 10);
-            }
-          }}
-          rightclick={(e) => {
-            e.stopPropagation();
+              if (e.data.originalEvent.shiftKey) {
+                setScale((old) => old * 1.25);
+              } else if (e.data.originalEvent.altKey) {
+                setYPos((old) => old + 10);
+              } else {
+                setXPos((old) => old + 10);
+              }
+            }}
+            rightclick={(e) => {
+              e.stopPropagation();
 
-            if (e.data.originalEvent.altKey) {
-              setYPos((old) => old - 10);
-            } else {
-              setXPos((old) => old - 10);
-            }
-          }}
-        />
-        <Text text='Hi!' />
-        <Text text='Hi!' />
-        <Text text='Hi!' />
-        <Text text='Hi!' />
-        <Text text={`Hi
-there.`} />
-        <Text text='Hello!' />
-      </Row>
-      <Container y={200}>
-        <Hand
-          rearrangeable
-          playable
-          cards={cards}
-          scale={0.3}
-        />
-      </Container>
-    </Centered>
+              if (e.data.originalEvent.altKey) {
+                setYPos((old) => old - 10);
+              } else {
+                setXPos((old) => old - 10);
+              }
+            }}
+          />
+          <Text text='Hi!' />
+          <Text text='Hi!' />
+          <Text text='Hi!' />
+          <Text text='Hi!' />
+          <Text text={`Hi
+  there.`} />
+          <Text text='Hello!' />
+        </Row>
+      </Centered>
+      <Board
+        discard={[...cards, ...cards, ...cards, ...cards, ...cards, ...cards, ...cards, ...cards, ...cards]}
+        handCards={cards}
+        scale={1}
+      />
+    </Fragment>
   );
 };
 

@@ -103,7 +103,7 @@ interface ICardProps {
   onDragEnd?: (cardContainer: PIXI.Container) => void;
   onClick?: () => void;
   scale?: number;
-  card: GameCard;
+  card?: GameCard;
 }
 
 const Card = (props: ICardProps) => {
@@ -117,7 +117,11 @@ const Card = (props: ICardProps) => {
     scale = 1,
     card,
   } = props;
-  const { suit, type, number } = card;
+  const {
+    suit = CardSuit.DIAMONDS,
+    type = null,
+    number = 0,
+  } = card ?? {};
 
   // Stateful refs are refs that we WANT to rerender when updated.
   const cardRef = useStatefulRef<PIXI.Container>(null);
@@ -262,7 +266,7 @@ const Card = (props: ICardProps) => {
         anchor={0.5}
       />
       <Container y={100}>
-        { resources[getTypeKey(type)] !== undefined ?
+        { type !== null && resources[getTypeKey(type)] !== undefined ?
           <Sprite
             texture={resources[getTypeKey(type)]!.texture}
             scale={0.4}
@@ -281,6 +285,7 @@ const Card = (props: ICardProps) => {
         y={-210}
         text={`${type}`}
         anchor={0.5}
+        resolution={1.6 * scale}
         style={{
           fontSize: 132,
           fontFamily: ['Perdido', 'Times'],
@@ -295,8 +300,9 @@ const Card = (props: ICardProps) => {
         <Text
           text={cardNumber[number]}
           anchor={[1, 0.5]}
+          resolution={2 * scale} // Render this at a lower resolution because it is so small it actually looks better blurrier
           style={{
-            fontSize: 52,
+            fontSize: 56,
             fontFamily: 'Times',
           }}
         />

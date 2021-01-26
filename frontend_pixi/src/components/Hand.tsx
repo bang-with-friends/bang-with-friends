@@ -15,10 +15,23 @@ interface IHandProps {
   playable?: boolean;
   cards: GameCard[];
   scale?: number;
+
+  onDragOutside?: (card: GameCard) => void;
+
+  // Called when a card is released outside of the hand.
+  // If true, continues animation with the card and moves it back to its original position.
+  onDragEndOutside?: (card: GameCard) => boolean;
 }
 
 const Hand = (props: IHandProps) => {
-  const { rearrangeable = false, playable = false, cards, scale = 1 } = props;
+  const {
+    rearrangeable = false,
+    playable = false,
+    cards,
+    scale = 1,
+    onDragOutside = () => {},
+    onDragEndOutside = () => true,
+  } = props;
 
   const [orderedCards, setOrderedCards] = useState<GameCard[]>([]);
   const [draggingCard, setDraggingCard] = useState<number>(-1);
@@ -186,8 +199,9 @@ const Hand = (props: IHandProps) => {
                       let newGhost = i + Math.round(container.x / cardWidth);
                       newGhost = Math.max(0, newGhost);
                       newGhost = Math.min(numCards - 1, newGhost);
-                      if (container.y < -275) {
+                      if (container.y < -275 || container.y > 275) {
                         newGhost = -1;
+                        onDragOutside(card);
                       }
                       
                       if (newGhost !== ghostCard) {
@@ -195,6 +209,7 @@ const Hand = (props: IHandProps) => {
                       }
                     }}
                     onDragEnd={(container) => {
+                      if (!onDragEndOutside(card)) return;
                       dragPos.current.x = container.x;
                       dragPos.current.y = container.y;
                       setWasDragging(i);
