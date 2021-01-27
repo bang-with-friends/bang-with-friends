@@ -13,6 +13,7 @@
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "common": "file:../common/common-0.1.0.tgz",
+    "pixi-filters": "^3.2.2",
     "pixi.js": "latest",
     "pixi.js-legacy": "^5.3.7",
     "react": "^17.0.1",
