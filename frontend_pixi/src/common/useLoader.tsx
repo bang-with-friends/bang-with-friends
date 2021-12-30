@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import * as PIXI from 'pixi.js-legacy';
+// import * as PIXI from 'pixi.js-legacy';
+import * as PIXI from 'pixi.js';
 
 interface ILoaderResult {
   loader: PIXI.Loader;

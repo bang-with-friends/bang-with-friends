@@ -1,6 +1,8 @@
 import { useCallback, useRef } from 'react';
-import { Container, Sprite, Text } from '@inlet/react-pixi/legacy';
-import * as PIXI from 'pixi.js-legacy';
+// import { Container, Sprite, Text } from '@inlet/react-pixi/legacy';
+import { Container, Sprite, Text } from '@inlet/react-pixi';
+// import * as PIXI from 'pixi.js-legacy';
+import * as PIXI from 'pixi.js';
 
 import { CardSuit, CardType, GameCard } from 'common/lib/Cards';
 import PngSource from '*.png';

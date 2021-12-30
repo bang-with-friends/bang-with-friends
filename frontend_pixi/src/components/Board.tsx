@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
-import { Container, Text } from '@inlet/react-pixi/legacy';
+// import { Container, Text } from '@inlet/react-pixi/legacy';
+import { Container, Text } from '@inlet/react-pixi';
 
 import { GameCard } from 'common/lib/Cards';
 

@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Text, useApp } from '@inlet/react-pixi/legacy';
+// import { Text, useApp } from '@inlet/react-pixi/legacy';
+import { Text, useApp } from '@inlet/react-pixi';
 
 import { CardSuit, CardType, GameCard } from 'common/lib/Cards';
 

@@ -3,23 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@inlet/react-pixi": "^6.0.7",
-    "@react-spring/animated": "^9.0.0-rc.3",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.53",
-    "@types/react-dom": "^16.9.8",
+    "@inlet/react-pixi": "^6.6.5",
+    "@react-spring/animated": "^9.3.2",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^12.20.39",
+    "@types/react": "^16.14.21",
+    "@types/react-dom": "^16.9.14",
     "common": "file:../common/common-0.1.0.tgz",
     "pixi.js": "latest",
-    "pixi.js-legacy": "^5.3.7",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "pixi.js-legacy": "^5.3.11",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-scripts": "4.0.1",
-    "react-spring": "^9.0.0-rc.3",
-    "typescript": "^4.0.3",
+    "react-spring": "^9.3.3",
+    "typescript": "^4.5.4",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -52,8 +52,8 @@
   },
   "devDependencies": {
     "@types/earcut": "^2.1.1",
-    "@types/resize-observer-browser": "^0.1.5",
+    "@types/resize-observer-browser": "^0.1.6",
     "react-refresh": "^0.9.0",
-    "replace-in-file": "^6.1.0"
+    "replace-in-file": "^6.3.2"
   }
 }

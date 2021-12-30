@@ -1,6 +1,8 @@
 import { ComponentProps } from 'react';
-import { Container } from '@inlet/react-pixi/legacy';
-import * as PIXI from 'pixi.js-legacy';
+// import { Container } from '@inlet/react-pixi/legacy';
+import { Container } from '@inlet/react-pixi';
+// import * as PIXI from 'pixi.js-legacy';
+import * as PIXI from 'pixi.js';
 import useStatefulRef from '../common/useStatefulRef';
 
 type ContainerProps = ComponentProps<typeof Container>;

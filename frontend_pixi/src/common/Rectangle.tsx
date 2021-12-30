@@ -1,5 +1,7 @@
-import * as PIXI from 'pixi.js-legacy';
-import { PixiComponent } from '@inlet/react-pixi/legacy';
+// import * as PIXI from 'pixi.js-legacy';
+import * as PIXI from 'pixi.js';
+// import { PixiComponent } from '@inlet/react-pixi/legacy';
+import { PixiComponent } from '@inlet/react-pixi';
 
 type Point = { x: number, y: number };
 

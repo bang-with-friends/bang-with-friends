@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const useStatefulRef = <T,>(initialVal: T | null ) => {
   let [cur, setCur] = React.useState<T | null>(initialVal);

@@ -1,4 +1,5 @@
-import { Container } from '@inlet/react-pixi/legacy';
+// import { Container } from '@inlet/react-pixi/legacy';
+import { Container } from '@inlet/react-pixi';
 import useStageSize from './useStageSize';
 
 const Centered: typeof Container = (props) => {

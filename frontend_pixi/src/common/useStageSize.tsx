@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useApp } from '@inlet/react-pixi/legacy';
+// import { useApp } from '@inlet/react-pixi/legacy';
+import { useApp } from '@inlet/react-pixi';
 
 const useStageSize = () => {
   const app = useApp();
