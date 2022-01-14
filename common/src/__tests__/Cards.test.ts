@@ -5,6 +5,7 @@ import {
   makeDeck,
   shuffleDeck,
   CardKind,
+  fyShuffle,
 } from '../Cards';
 
 describe('GameCard', () => {
@@ -83,6 +84,13 @@ describe('GameCard', () => {
       expect(card2.type).toBe(card1.type);
       expect(card2.playable).toBe(card1.playable);
     }
+  });
+
+  it('fyshuffle can also shuffle string array', () => {
+    let array = ['a', 'b', 'c', 'd'];
+    let array2 = fyShuffle(array);
+    expect(array2).toBeTruthy();
+    expect(array2.length).toBe(4);
   });
 
   it('sufficiently shuffles a deck', () => {

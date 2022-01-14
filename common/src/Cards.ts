@@ -167,9 +167,9 @@ export const fyShuffle = (array: any[]) => {
 
   // Shuffle using the Fisher-Yates algorithm.
   for (let i = array.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = cards[i] || array[i].copy();
-    cards[i] = cards[j] || array[j].copy();
+    const j = Math.floor(Math.random() * i);
+    const temp = cards[i] || array[i];
+    cards[i] = cards[j] || array[j];
     cards[j] = temp;
   }
 
