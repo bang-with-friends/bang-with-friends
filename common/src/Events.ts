@@ -1,29 +1,24 @@
-import { CardType, GameCard } from './Cards';
-import { Player } from './Player';
+import { GameCard } from "./Cards";
 
 export enum EventName {
-  GAME_START = 'GAME_START',
-  SHUFFLE_CARDS = 'SHUFFLE_CARDS',
-  START_TURN = 'START_TURN',
-  END_TURN = 'END_TURN',
-  PLAY_CARD = 'PLAY_CARD',
-  PICK_CARD = 'PICK_CARD',
-  PLAYER_UPDATE = 'PLAYER_UPDATE',
-  PLAYER_JOINED = 'PLAYER_JOINED',
-  PLAYER_ELIM = 'PLAYER_ELIM',
-  ADD_PLAYER = 'ADD_PLAYER',
-  REVEAL_CARD = 'REVEAL_CARD',
-  CARD_PICKED = 'CARD_PICKED',
-  MOVE_CARD = 'MOVE_CARD',
+  GAME_START_EVENT = 'GameStartEvent',
+  PLAYER_JOINED_EVENT = 'PlayerJoinedEvent',
+  PLAYER_DRAW_PHASE_BEGIN_EVENT = 'PlayerDrawPhaseBeginEvent',
+  PLAYER_TURN_BEGIN_EVENT = 'PlayerTurnBeginEvent',
+  PLAYER_DRAWS_CARD_EVENT = 'PlayerDrawsCardEvent',
+  PLAYER_STEALS_CARD_EVENT = 'PlayerStealsCardEvent',
+  PLAYER_PLAY_PHASE_BEGIN_EVENT = 'PlayerPlayPhaseBeginEvent',
+  PLAYER_PLAYS_CARD_EVENT = 'PlayerPlaysCardEvent',
+  PLAYER_SHOT_AT_EVENT = 'PlayerShotAtEvent',
+  PLAYER_NEGATES_SHOT_EVENT = 'PlayerNegatesShotEvent',
 }
 
-export enum SourceKind {
-  DECK = 'DECK',
-  DISCARD = 'DISCARD',
-  PLAYER_HAND = 'PLAYER_HAND',
-  PLAYER_BOARD = 'PLAYER_BOARD',
-  GENERAL_STORE = 'GENERAL_STORE',
+export enum SourceType {
+  DECK = 'Deck',
+  DISCARD = 'Discard',
 }
+
+type PlayerId = string;
 
 export abstract class GameEvent {
   name: EventName;
@@ -43,156 +38,98 @@ export abstract class GameEvent {
 
 export class GameStartEvent extends GameEvent {
   constructor() {
-    super(EventName.GAME_START, null);
+    super(EventName.GAME_START_EVENT, null);
   }
-}
-
-export class ShuffleCardsEvent extends GameEvent {
-  constructor() {
-    super(EventName.SHUFFLE_CARDS, null);
-  }
-}
-
-// current refers to the player whose turn is starting
-export interface StartTurnData {
-  currentId: string,
-  nextId: string,
-}
-
-export class StartTurnEvent extends GameEvent {
-  constructor(data: StartTurnData) {
-    super(EventName.START_TURN, data);
-  }
-}
-
-export class EndTurnEvent extends GameEvent {
-  constructor() {
-    super(EventName.END_TURN, null);
-  }
-}
-
-export interface PlayCardData {
-  sourceId: string,
-  targetId?: string,
-  card: GameCard
-}
-
-export class PlayCardEvent extends GameEvent {
-  constructor(data: PlayCardData) {
-    super(EventName.PLAY_CARD, data);
-  }
-}
-
-export interface PickCardData {
-  sources: {
-    playerId?: string;
-    kind: SourceKind;
-    canView: boolean;
-  }[];
-  receiver: {
-    kind: SourceKind;
-    playerId?: string;
-  };
-  optionCount?: number;
-  filter: CardType[];
-  selectCount: number;
-  optional: boolean;
-  pickerId?: string;
-}
-
-export class PickCardEvent extends GameEvent {
-  constructor(data: PickCardData) {
-    super(EventName.PICK_CARD, data);
-  }
-}
-
-export interface PlayerUpdateData {
-  playerId: string,
-  field: keyof Player,
-  newValue: any,
-}
-
-export class PlayerUpdateEvent extends GameEvent {
-  constructor(data: PlayerUpdateData) {
-    super(EventName.PLAYER_UPDATE, data);
-  }
-}
-
-export interface PlayerJoinedData {
-  player: Player,
 }
 
 export class PlayerJoinedEvent extends GameEvent {
-  constructor(data: PlayerJoinedData) {
-    super(EventName.PLAYER_JOINED, data);
+  constructor() {
+    super(EventName.PLAYER_JOINED_EVENT, null);
   }
 }
 
-export interface AddPlayerData {
-  player: Player,
-  gameId: string,
+export interface PlayerTurnBeginData {
+  player: PlayerId,
 }
 
-export class AddPlayerEvent extends GameEvent {
-  constructor(data: AddPlayerData) {
-    super(EventName.ADD_PLAYER, data);
+export class PlayerTurnBeginEvent extends GameEvent {
+  constructor(data: PlayerDrawPhaseBeginData) {
+    super(EventName.PLAYER_TURN_BEGIN_EVENT, data);
   }
 }
 
-export interface RevealCardData {
-  source: {
-    kind: SourceKind,
-    playerId?: string,
-  }
-  revealCount: number,
-  selectCount?: number,
+export interface PlayerDrawPhaseBeginData {
+  player: PlayerId,
 }
 
-export class RevealCardEvent extends GameEvent {
-  constructor(data: RevealCardData) {
-    super(EventName.REVEAL_CARD, data);
+export class PlayerDrawPhaseBeginEvent extends GameEvent {
+  constructor(data: PlayerDrawPhaseBeginData) {
+    super(EventName.PLAYER_DRAW_PHASE_BEGIN_EVENT, data);
   }
 }
 
-export interface PlayerElimData {
-  deadDlayerId: string,
-  killingPlayerId?: string,
+export interface PlayerDrawsCardData {
+  player: PlayerId,
+  source: SourceType,
+  quantity: number,
 }
 
-export class PlayerElimEvent extends GameEvent {
-  constructor(data: PlayerElimData) {
-    super(EventName.PLAYER_ELIM, data);
+export class PlayerDrawsCardEvent extends GameEvent {
+  constructor(data: PlayerDrawsCardData) {
+    super(EventName.PLAYER_DRAWS_CARD_EVENT, data);
   }
 }
 
-export interface CardPickedData {
-  source: {
-    kind: SourceKind,
-    playerId?: string,
+export interface PlayerStealsCardData {
+  sourcePlayer: PlayerId,
+  targetPlayer: PlayerId,
+  quantity: number,
+}
+
+export class PlayerStealsCardEvent extends GameEvent {
+  constructor(data: PlayerDrawsCardData) {
+    super(EventName.PLAYER_STEALS_CARD_EVENT, data);
   }
+}
+
+export interface PlayerPlayPhaseBeginData {
+  player: PlayerId,
+}
+
+export class PlayerPlayPhaseBeginEvent extends GameEvent {
+  constructor(data: PlayerPlayPhaseBeginData) {
+    super(EventName.PLAYER_PLAY_PHASE_BEGIN_EVENT, data);
+  }
+}
+
+export interface PlayerPlaysCardData {
+  player: PlayerId,
   card: GameCard,
 }
 
-export class CardPickedEvent extends GameEvent {
-  constructor(data: CardPickedData) {
-    super(EventName.CARD_PICKED, data);
+export class PlayerPlaysCardEvent extends GameEvent {
+  constructor(data: PlayerPlaysCardData) {
+    super(EventName.PLAYER_PLAYS_CARD_EVENT, data);
   }
 }
 
-export interface MoveCardData {
-  source: {
-    kind: SourceKind,
-    playerId?: string,
-  },
-  target: {
-    kind: SourceKind,
-    playerId?: string,
-  }
-  card: GameCard,
+export interface PlayerShotAtData {
+  sourcePlayer: PlayerId,
+  targetPlayer: PlayerId,
 }
 
-export class MoveCardEvent extends GameEvent {
-  constructor(data: MoveCardData) {
-    super(EventName.MOVE_CARD, data);
+export class PlayerShotAtEvent extends GameEvent {
+  constructor(data: PlayerShotAtData) {
+    super(EventName.PLAYER_SHOT_AT_EVENT, data);
+  }
+}
+
+export interface PlayerNegatesShotData {
+  shotEvent: PlayerShotAtEvent,
+}
+
+export class PlayerNegatesShotEvent extends GameEvent {
+  constructor(data: PlayerNegatesShotData) {
+    super(EventName.PLAYER_NEGATES_SHOT_EVENT, data);
   }
 }

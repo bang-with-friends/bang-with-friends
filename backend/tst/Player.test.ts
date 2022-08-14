@@ -1,4 +1,4 @@
-import { Player } from '../Player';
+import { Player } from '../src/Player';
 
 describe('Player', () => {
   it('initializes', () => {

@@ -1,4 +1,4 @@
-import { GameCard, makeDeck, shuffleDeck } from './Cards';
+import { GameCard, makeDeck, shuffleDeck } from 'common/lib/Cards';
 import { Player } from './Player';
 
 export enum GameState {

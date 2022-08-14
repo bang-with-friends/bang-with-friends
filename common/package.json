@@ -8,7 +8,7 @@
     "lib/**/*"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run postbuild",
     "postbuild": "pnpm pack",
     "removeAll": "pnpm recursive run removeCommon --if-present",
     "installAll": "pnpm recursive run installCommon --if-present",

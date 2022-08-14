@@ -1,149 +1,119 @@
-import { EventName } from './Events';
-import { CharName, Player } from './Player';
-import { Priority, DEFAULT_PRIORITY } from './EventManager';
+export enum CharName {
+  BART_CASSIDY = 'BART_CASSIDY',
+  BLACK_JACK = 'BLACK_JACK',
+  CALAMITY_JANET = 'CALAMITY_JANET',
+  EL_GRINGO = 'EL_GRINGO',
+  JESSE_JONES = 'JESSE_JONES',
+  JOURDONNAIS = 'JOURDONNAIS',
+  KIT_CARLSON = 'KIT_CARLSON',
+  LUCKY_DUKE = 'LUCKY_DUKE',
+  PAUL_REGRET = 'PAUL_REGRET',
+  PEDRO_RAMIREZ = 'PEDRO_RAMIREZ',
+  ROSE_DOOLAN = 'ROSE_DOOLAN',
+  SID_KETCHUM = 'SID_KETCHUM',
+  SLAB_THE_KILLER = 'SLAB_THE_KILLER',
+  SUZY_LAFAYETTE = 'SUZY_LAFAYETTE',
+  VULTURE_SAM = 'VULTURE_SAM',
+  WILLY_THE_KID = 'WILLY_THE_KID',
+}
 
 export interface Character {
   charName: CharName;
   maxHealth: number;
-  effect?: {
-    event: EventName,
-    priority: Priority,
-  };
-  passive?: {
-    field: keyof Player,
-    newValue: any,
-  }
+  updatePlayer: () => void;
 }
 
 export const BartCassidy: Character = {
   charName: CharName.BART_CASSIDY,
   maxHealth: 4,
-  effect: {
-    event: EventName.PLAYER_UPDATE,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
 
 export const BlackJack: Character = {
   charName: CharName.BLACK_JACK,
   maxHealth: 4,
-  effect: {
-    event: EventName.START_TURN,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
 
 export const CalamityJanet: Character = {
   charName: CharName.CALAMITY_JANET,
   maxHealth: 4,
-  effect: {
-    event: EventName.PLAY_CARD,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
 export const ElGringo: Character = {
   charName: CharName.EL_GRINGO,
   maxHealth: 3,
-  effect: {
-    event: EventName.PLAYER_UPDATE,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
+
 export const JesseJones: Character = {
   charName: CharName.JESSE_JONES,
   maxHealth: 4,
-  effect: {
-    event: EventName.START_TURN,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
+
 export const Jourdonnais: Character = {
   charName: CharName.JOURDONNAIS,
   maxHealth: 4,
-  effect: {
-    event: EventName.PLAY_CARD,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
 export const KitCarlson: Character = {
   charName: CharName.KIT_CARLSON,
   maxHealth: 4,
-  effect: {
-    event: EventName.START_TURN,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
 export const LuckyDuke: Character = {
   charName: CharName.LUCKY_DUKE,
   maxHealth: 4,
-  effect: {
-    event: EventName.REVEAL_CARD,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
+
 export const PaulRegret: Character = {
   charName: CharName.PAUL_REGRET,
   maxHealth: 3,
-  passive: {
-    field: 'distanceMod',
-    newValue: 1,
-  },
+  updatePlayer: () => {},
 };
+
 export const PedroRamirez: Character = {
   charName: CharName.PEDRO_RAMIREZ,
   maxHealth: 4,
-  effect: {
-    event: EventName.START_TURN,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
+
 export const RoseDoolan: Character = {
   charName: CharName.ROSE_DOOLAN,
   maxHealth: 4,
-  passive: {
-    field: 'rangeMod',
-    newValue: 1,
-  },
+  updatePlayer: () => {},
 };
+
 export const SidKetchum: Character = {
   charName: CharName.SID_KETCHUM,
   maxHealth: 4,
-  effect: {
-    event: EventName.PLAY_CARD,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
+
 export const SlabTheKiller: Character = {
   charName: CharName.SLAB_THE_KILLER,
   maxHealth: 4,
-  effect: {
-    event: EventName.PLAY_CARD,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
+
 export const SuzyLafayette: Character = {
   charName: CharName.SUZY_LAFAYETTE,
   maxHealth: 4,
-  effect: {
-    event: EventName.PLAY_CARD,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
+
 export const VultureSam: Character = {
   charName: CharName.VULTURE_SAM,
   maxHealth: 4,
-  effect: {
-    event: EventName.PLAYER_ELIM,
-    priority: DEFAULT_PRIORITY,
-  },
+  updatePlayer: () => {},
 };
+
 export const WillyTheKid: Character = {
   charName: CharName.WILLY_THE_KID,
   maxHealth: 4,
-  passive: {
-    field: 'volcanic',
-    newValue: true,
-  },
+  updatePlayer: () => {},
 };
 
 /* eslint-disable no-multi-spaces */

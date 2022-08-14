@@ -2,13 +2,7 @@ import * as Events from '../Events';
 
 /* eslint-disable no-multi-spaces */
 const eventsToTest: (Events.EventName | Events.GameEvent)[][] = [
-  [Events.EventName.GAME_START,    new Events.GameStartEvent()],
-  [Events.EventName.SHUFFLE_CARDS, new Events.ShuffleCardsEvent()],
-  [Events.EventName.START_TURN,    new Events.StartTurnEvent({} as any)],
-  [Events.EventName.END_TURN,      new Events.EndTurnEvent()],
-  [Events.EventName.PLAY_CARD,     new Events.PlayCardEvent({} as any)],
-  [Events.EventName.PICK_CARD,     new Events.PickCardEvent({} as any)],
-  [Events.EventName.PLAYER_UPDATE, new Events.PlayerUpdateEvent({} as any)],
+  [Events.EventName.GAME_START_EVENT,    new Events.GameStartEvent()],
 ];
 /* eslint-enable no-multi-spaces */
 

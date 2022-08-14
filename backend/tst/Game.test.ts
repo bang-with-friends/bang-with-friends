@@ -1,4 +1,4 @@
-import { Game, GameState } from '../Game';
+import { Game, GameState } from '../src/Game';
 
 describe('Game', () => {
   it('initializes', () => {

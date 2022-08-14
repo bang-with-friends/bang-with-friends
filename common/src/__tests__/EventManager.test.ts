@@ -44,13 +44,7 @@ describe('ListenerMap', () => {
 
 /* eslint-disable no-multi-spaces */
 const eventsToTest: (Events.EventName | Events.GameEvent)[][] = [
-  [Events.EventName.GAME_START,    new Events.GameStartEvent()],
-  [Events.EventName.SHUFFLE_CARDS, new Events.ShuffleCardsEvent()],
-  [Events.EventName.START_TURN,    new Events.StartTurnEvent({} as any)],
-  [Events.EventName.END_TURN,      new Events.EndTurnEvent()],
-  [Events.EventName.PLAY_CARD,     new Events.PlayCardEvent({} as any)],
-  [Events.EventName.PICK_CARD,     new Events.PickCardEvent({} as any)],
-  [Events.EventName.PLAYER_UPDATE, new Events.PlayerUpdateEvent({} as any)],
+  [Events.EventName.GAME_START_EVENT,    new Events.GameStartEvent()],
 ];
 /* eslint-enable no-multi-spaces */
 
@@ -74,7 +68,7 @@ describe('EventManager', () => {
   it('does not remove an invalid event', () => {
     const manager = new EventManager();
 
-    expect(manager.removeEventListener(Events.EventName.GAME_START, 12345)).toBeFalsy();
+    expect(manager.removeEventListener(Events.EventName.GAME_START_EVENT, 12345)).toBeFalsy();
   });
 
   it('fires listener on event', () => {
@@ -85,7 +79,7 @@ describe('EventManager', () => {
     });
 
     const id = manager.addEventListener(
-      Events.EventName.GAME_START,
+      Events.EventName.GAME_START_EVENT,
       DEFAULT_PRIORITY,
       mockCallback,
     );
@@ -109,7 +103,7 @@ describe('EventManager', () => {
     expect(mockCallback.mock.calls.length).toBe(1);
 
     // Remove the event listener and try firing again. The callback should not be called.
-    expect(manager.removeEventListener(Events.EventName.GAME_START, id)).toBeTruthy();
+    expect(manager.removeEventListener(Events.EventName.GAME_START_EVENT, id)).toBeTruthy();
     const event2 = new Events.GameStartEvent();
     manager.onEvent(event2);
 
@@ -125,7 +119,7 @@ describe('EventManager', () => {
     });
 
     const id = manager.addEventListener(
-      Events.EventName.GAME_START,
+      Events.EventName.GAME_START_EVENT,
       DEFAULT_PRIORITY,
       mockCallback,
     );
@@ -136,12 +130,12 @@ describe('EventManager', () => {
     expect(iId).toEqual(0);
     expect(iPriority).toEqual(DEFAULT_PRIORITY);
 
-    expect(manager.listeners.map.get(Events.EventName.GAME_START)).not.toBeUndefined();
-    expect(manager.listeners.map.get(Events.EventName.GAME_START)![DEFAULT_PRIORITY - 1])
+    expect(manager.listeners.map.get(Events.EventName.GAME_START_EVENT)).not.toBeUndefined();
+    expect(manager.listeners.map.get(Events.EventName.GAME_START_EVENT)![DEFAULT_PRIORITY - 1])
       .not.toBeUndefined();
-    expect(manager.listeners.map.get(Events.EventName.GAME_START)![DEFAULT_PRIORITY - 1].get(iId))
+    expect(manager.listeners.map.get(Events.EventName.GAME_START_EVENT)![DEFAULT_PRIORITY - 1].get(iId))
       .not.toBeUndefined();
-    expect(manager.listeners.map.get(Events.EventName.GAME_START)![DEFAULT_PRIORITY - 1].get(iId))
+    expect(manager.listeners.map.get(Events.EventName.GAME_START_EVENT)![DEFAULT_PRIORITY - 1].get(iId))
       .toBe(mockCallback);
   });
 
@@ -153,14 +147,14 @@ describe('EventManager', () => {
     const cb = (priority: number) => (e?: Events.GameEvent) => mockCallback(e || null, priority);
 
     for (let i = MIN_PRIORITY; i <= MAX_PRIORITY; i += 1) {
-      manager.addEventListener(Events.EventName.GAME_START, i as Priority, cb(i));
+      manager.addEventListener(Events.EventName.GAME_START_EVENT, i as Priority, cb(i));
     }
 
-    expect(manager.listeners.map.get(Events.EventName.GAME_START)).not.toBeUndefined();
+    expect(manager.listeners.map.get(Events.EventName.GAME_START_EVENT)).not.toBeUndefined();
 
     const num = MAX_PRIORITY - MIN_PRIORITY + 1;
     for (let i = 0; i < num; i += 1) {
-      expect(manager.listeners.map.get(Events.EventName.GAME_START)![i])
+      expect(manager.listeners.map.get(Events.EventName.GAME_START_EVENT)![i])
         .not.toBeUndefined();
     }
 
@@ -180,11 +174,11 @@ describe('EventManager', () => {
 
     const num = 3;
     for (let i = 0; i < num; i += 1) {
-      manager.addEventListener(Events.EventName.GAME_START, DEFAULT_PRIORITY, mockCallback);
+      manager.addEventListener(Events.EventName.GAME_START_EVENT, DEFAULT_PRIORITY, mockCallback);
     }
 
-    expect(manager.listeners.map.get(Events.EventName.GAME_START)).not.toBeUndefined();
-    expect(manager.listeners.map.get(Events.EventName.GAME_START)![DEFAULT_PRIORITY - 1].size)
+    expect(manager.listeners.map.get(Events.EventName.GAME_START_EVENT)).not.toBeUndefined();
+    expect(manager.listeners.map.get(Events.EventName.GAME_START_EVENT)![DEFAULT_PRIORITY - 1].size)
       .toBe(num);
 
     manager.onEvent(new Events.GameStartEvent());
